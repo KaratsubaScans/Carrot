@@ -1,23 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { MouseEvent } from 'react';
 import './App.css';
+import { fetchZip, getFileList } from './services/archive.service';
 
 function App() {
+  function testingClick(event: MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    // fetchZip('https://files.karatsubascans.com/girls_last_tour/jpg/chapter1.zip');
+    // fetchZip('https://files.karatsubascans.com/testing_zip.zip');
+    getFileList();
+  }
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+
+        <button onClick={testingClick}>test</button>
       </header>
     </div>
   );
