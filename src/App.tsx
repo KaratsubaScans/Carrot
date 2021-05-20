@@ -1,6 +1,8 @@
 import React, { MouseEvent } from 'react';
 import './App.css';
 import { fetchZip, getFileList } from './services/archive.service';
+import './App.css';
+import { Layout } from './components/layout/layout'
 
 function App() {
   function testingClick(event: MouseEvent<HTMLButtonElement>) {
@@ -19,7 +21,14 @@ function App() {
 
         <button onClick={testingClick}>test</button>
       </header>
+      <Layout>
+        <h2>
+          content
+        </h2>
+      </Layout>
+
     </div>
+
   );
 }
 
