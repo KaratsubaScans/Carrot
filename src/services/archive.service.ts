@@ -20,29 +20,61 @@ export const extractZip = () => {
 
 /* retrieves list of file names in zip file */
 export const getFileList = () => {
-  /* assuming that zip has no comment in it */
-  const tail = zippedHex.slice(-4); // 2 bytes
-  if (tail != "0000") console.error("Invalid Zip: expecting no zip comment");
 
-  /* find the beginning of the central directory */
-  const cdStart = bufReadInt(zippedHex, -12, -4); // 4 bytes
-  const cdSize = bufReadInt(zippedHex, -20, -12); // 4 bytes
-  const cdRecCount = bufReadInt(zippedHex, -24, -20); // 2 byes
+  const fileList: string[] = [];
 
-  // console.log(cdStart)
-  console.log(zippedHex.slice(cdStart-9, cdStart-1+20))
-  /* the problem is that the value stored in offset buffer is OCT-OFFSET !! */
+  const EOCD_start = zippedHex.lastIndexOf(flopEd('06054b50'))/2; // might be dangerous to assume divisible by 2
+  const CD_count =   bufReadInt(zippedHex, EOCD_start+10, EOCD_start+10+2); // offset 10 bytes; length 2 bytes
+  const CD_size =    bufReadInt(zippedHex, EOCD_start+12, EOCD_start+12+4); // offset 12 bytes; length 4 bytes
+  let CD_offset =    bufReadInt(zippedHex, EOCD_start+16, EOCD_start+16+4); // offset 16 bytes; length 4 bytes
+
+  // console.log(CD_count)
+  // console.log(CD_size)
+  // console.log(CD_offset)
+
+  /* double check for central dir header */
+  for (let i = 0; i < CD_count; i++) {
+
+    const CD_header = bufReadStr(zippedHex, CD_offset, CD_offset+4); // length 4 bytes
+    if (CD_header !== '02014b50') console.error('Invalid Header: Central Header');
+
+    const filename_length = bufReadInt(zippedHex, CD_offset+28, CD_offset+28+2);
+    const extra_length =    bufReadInt(zippedHex, CD_offset+30, CD_offset+30+2);
+    const comment_length =  bufReadInt(zippedHex, CD_offset+32, CD_offset+32+2);
+
+    const filename = bufReadStr(zippedHex, CD_offset+46, CD_offset+46+filename_length);
+    fileList.push(hexToAscii(flopEd(filename)));
+
+    CD_offset += (46+filename_length+extra_length+comment_length);
+
+  }
+
+  return fileList;
+
+}
+
+const bufReadInt = (buf: string, start: number, end: number) => {
+  return parseInt(bufReadStr(buf, start, end), 16);
 }
 
 /* reads a little endian hex buffer and returns value as int */
-const bufReadInt = (buf: string, start: number, end: number) => {
-  console.log(buf.slice(start, end))
-  return parseInt(toLittleEd(buf.slice(start, end)), 16);
+/* nubmers it takes in are in bytes (notice that a hex string 'a0' is 1 byte) */
+const bufReadStr = (buf: string, start: number, end: number) => {
+  // console.log(buf.slice(start, end))
+  return flopEd(buf.slice(start*2, end*2));
 }
 
-/* big ed to little ed - need to fix up this func*/
-const toLittleEd = (buf: string) => {
-    const littleBuf = buf.replace(/^(.(..)*)$/, "0$1").match(/../g);
-    if (littleBuf == null) { console.error('problem covnerting to little ed'); return "" }
+const hexToAscii = (hexstring: string) => {
+  let asciiStr = '';
+  for (let i = 0; i < hexstring.length; i += 2) {
+    asciiStr += String.fromCharCode(parseInt(hexstring.slice(i, i+2), 16));
+  }
+  return asciiStr;
+}
+
+/* flop the endianess - need to fix up this func*/
+const flopEd = (buf: string) => {
+    const littleBuf = buf.replace(/^(.(..)*)$/, "0$1").match(/..?/g);
+    if (littleBuf == null) { console.error('Conversion Error: Possibly have odd length hex string.'); return "" }
     return littleBuf.reverse().join("");
 }
