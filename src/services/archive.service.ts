@@ -1,6 +1,9 @@
 
 import axios from 'axios';
-import { inflate } from 'zlib';
+import { inflateRaw } from 'zlib';
+import { promisify } from 'util';
+
+const inflateRawPromise = promisify(inflateRaw);
 
 export type ZipInfo = {
   filename: string,
@@ -9,24 +12,18 @@ export type ZipInfo = {
 
 export const fetchZip = (zip_url: string) => {
   axios.get(zip_url, { responseType: 'arraybuffer' })
-    .then(response => {
+    .then(async (response) => {
       const zipInfoList = getFileList(Buffer.from(response.data, 'binary'));
-      // const fileList: ZipInfo[] = getFileList(Buffer.from(response.data, 'binary').toString('hex'));
-      // extractZip(fileList[0].contents);
+      const inflated = await extractZip(zipInfoList[0].contents);
+      console.log(inflated.slice(0, 8).toString('hex'));
     });
 }
 
-/* takes in a hex string */
-export const extractZip = (deflatedString: string) => {
-  inflate(deflatedString, (err, buf) => {
-    if (err) {
-      console.error(err);
-      return "";
-    } else {
-      console.log(buf);
-    }
-
-  });
+export const extractZip = (deflatedBuffer: Buffer) => {
+  return inflateRawPromise(deflatedBuffer)
+    .then((buf: Buffer) => {
+      return buf;
+    })
 }
 
 /* retrieves list of file names in zip file along with their contents */
@@ -34,6 +31,11 @@ export const getFileList = (buf: Buffer) => {
   const zipInfoList: ZipInfo[] = [];
 
   const EOCD_start = buf.lastIndexOf(Buffer.from('504b0506', 'hex'));
+  if (EOCD_start == -1) {
+    console.error('Invalid Header: Missing EOCD header');
+    return [];
+  }
+
   const CD_count =   buf.readIntLE(EOCD_start+10, 2);
   let CD_offset =  buf.readIntLE(EOCD_start+16, 4);
 
@@ -47,7 +49,6 @@ export const getFileList = (buf: Buffer) => {
     }
 
     /* read information from central header */
-    /* right now assuming that file is uncompressed */
     const file_comp_size =  buf.readIntLE(CD_offset+20, 4);
     const filename_length = buf.readIntLE(CD_offset+28, 2);
     const extra_length =    buf.readIntLE(CD_offset+30, 2);
