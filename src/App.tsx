@@ -9,7 +9,7 @@ function App() {
     event.preventDefault();
     // fetchZip('https://files.karatsubascans.com/girls_last_tour/jpg/chapter1.zip');
     fetchZip('https://files.karatsubascans.com/testing_zip.zip');
-    // console.log(getFileList());
+    // fetchZip('https://files.karatsubascans.com/girls_last_tour/jpg/chapter1.zip');
   }
 
   return (
