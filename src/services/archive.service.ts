@@ -11,12 +11,8 @@ export type ZipInfo = {
 }
 
 export const fetchZip = (zip_url: string) => {
-  axios.get(zip_url, { responseType: 'arraybuffer' })
-    .then(async (response) => {
-      const zipInfoList = getFileList(Buffer.from(response.data, 'binary'));
-      const inflated = await extractZip(zipInfoList[0].contents);
-      console.log(inflated.slice(0, 8).toString('hex'));
-    });
+  return axios.get(zip_url, { responseType: 'arraybuffer' })
+    .then((response) => getFileList(Buffer.from(response.data, 'binary')));
 }
 
 export const extractZip = (deflatedBuffer: Buffer) => {

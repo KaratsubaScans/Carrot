@@ -5,7 +5,7 @@ type layoutProps = {
   children: JSX.Element
 }
 
-export class Layout extends Component<layoutProps, Record<string, never> > {
+export default class Layout extends Component<layoutProps, Record<string, never> > {
   render() {
     return (
       <div>
