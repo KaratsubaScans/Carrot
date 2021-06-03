@@ -1,28 +1,27 @@
-import React, { MouseEvent } from 'react';
+import React from 'react';
 import './App.css';
-import './App.css';
-import Layout from './components/layout/layout'
-import Image from './components/image'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Home from './pages/home';
+import Reader from './pages/reader';
+import Navbar from './components/navbar';
+// import Layout from './components/layout/layout'
 
 function App() {
 
   return (
+    <Router>
     <div className="App">
       <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <Layout>
-          <h2>
-            content
-          </h2>
-        </Layout>
-        <Image></Image>
-
+        <Navbar/>
+        <div className="page-mount">
+          <Switch>
+            <Route exact path="/"><Home/></Route>
+            <Route path="/read"><Reader/></Route>
+          </Switch>
+        </div>
       </header>
-
     </div>
-
+    </Router>
   );
 }
 
