@@ -1,7 +1,7 @@
 import React, { MouseEvent, Props } from 'react';
 import { withRouter } from 'react-router-dom';
 import { fetchZip, extractZip } from '../services/archive.service';
-import queryString from 'querystring';
+import queryString from 'query-string';
 
 class Reader extends React.Component<any, any> { // fix typing up
 
@@ -14,9 +14,7 @@ class Reader extends React.Component<any, any> { // fix typing up
 
     const qs = queryString.parse(this.props.location.search);
 
-    console.log(qs);
-    // const zipInfo = await fetchZip(`https://files.karatsubascans.com/${mangafile}`);
-    const zipInfo = await fetchZip(`https://files.karatsubascans.com/girls_last_tour/jpg/chapter1.zip`);
+    const zipInfo = await fetchZip(`https://files.karatsubascans.com/${qs.mangafile}`);
 
     const inflatedImages = [];
     // lazy extract files as user scrolls to improve speed

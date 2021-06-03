@@ -7,7 +7,7 @@ const Navbar = () => {
       <div>
         <Link to="/">Home</Link>
         |
-        <Link to="/read?mangafile=girls_last_tour/jpg/chapter1.zip">Reader</Link>
+        <Link to="/read?mangafile=girls_last_tour/jpg/chapter2.zip">Reader</Link>
       </div>
     </nav>
   );
