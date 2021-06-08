@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './layout.css';
 
 type layoutProps = {
   children: JSX.Element

@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+
+.nav-body {
+  @apply fixed top-0 inset-x-0 flex;
+  @apply text-lg;
+}
+.nav-item {
+  @apply block text-center p-4;
+}
+
+@tailwind utilities;

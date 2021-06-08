@@ -1,9 +1,10 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Home from './pages/home';
-import Reader from './pages/reader';
-import Navbar from './components/navbar';
+
+import Home from 'pages/home';
+import Reader from 'pages/reader';
+import Navbar from 'components/navbar';
 // import Layout from './components/layout/layout'
 
 function App() {

@@ -1,6 +1,9 @@
 import React, { MouseEvent, Props } from 'react';
 import { withRouter } from 'react-router-dom';
-import { fetchZip, extractZip } from '../services/archive.service';
+import MangaControl from 'components/mangacontrol';
+import 'pages/reader.css';
+
+import { fetchZip, extractZip } from 'services/archive.service';
 import queryString from 'query-string';
 
 class Reader extends React.Component<any, any> { // fix typing up
@@ -9,9 +12,7 @@ class Reader extends React.Component<any, any> { // fix typing up
     images: []
   };
 
-  testingClick = async (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-
+  queryManga = async () => {
     const qs = queryString.parse(this.props.location.search);
 
     const zipInfo = await fetchZip(`https://files.karatsubascans.com/${qs.mangafile}`);
@@ -25,17 +26,22 @@ class Reader extends React.Component<any, any> { // fix typing up
     this.setState({ images: inflatedImages });
   }
 
+  componentDidMount() {
+    this.queryManga();
+  }
+
   render() {
     return (
       <div>
         <h1>Manga Reader Page</h1>
-        <p>location: </p>
-        <button onClick={this.testingClick}>test</button>
-        <div>
+        <div className="mangaimage-container">
           {this.state.images.map((image, ind) => (
-            <img src={`data:image/jpeg;base64,${image}`} key={ind}/>
+            <div className="mangaimage" key={ind}>
+              <img src={`data:image/jpeg;base64,${image}`}/>
+            </div>
           ))}
         </div>
+        <MangaControl></MangaControl>
       </div>
     )
   }

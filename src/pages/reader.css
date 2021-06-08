@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+
+.mangaimage-container {
+  @apply flex flex-col items-center;
+}
+
+.mangaimage {
+  @apply m-8 w-1/2;
+}
+
+@tailwind utilities;

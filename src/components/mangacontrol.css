@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+
+.mangacontrol-body {
+  @apply fixed bottom-0 inset-x-0;
+  background-color: red;
+}
+
+@tailwind utilities;
