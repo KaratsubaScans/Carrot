@@ -7,9 +7,30 @@ body {
   font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  @apply text-gray-700;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.heading {
+  @apply text-xl font-bold;
+}
+
+.title {
+  @apply text-lg font-semibold;
+}
+
+.header {
+  @apply text-lg font-semibold;
+}
+
+.regular {
+  @apply text-base font-normal;
+}
+
+.subtitle {
+  @apply text-sm font-light;
 }

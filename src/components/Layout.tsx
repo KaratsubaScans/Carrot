@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+import Logo from 'assets/logo/logo.svg'
+import './Layout.css'
+
 type layoutProps = {
   children: JSX.Element
 }
@@ -7,13 +10,15 @@ type layoutProps = {
 export default class Layout extends Component<layoutProps, Record<string, never> > {
   render() {
     return (
-      <div>
-        <div>
-          <h1>LMAOOOOOO this is the layout</h1>
+      <>
+        <div className="nav">
+          <img src={Logo} alt="Logo" />
+          <h1 className="heading pl-2">Karatsuba Scan&apos;s Carrot Reader</h1>
 
         </div>
+
         <main>{this.props.children}</main>
-      </div>
+      </>
     )
   }
 

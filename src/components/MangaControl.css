@@ -1,9 +1,16 @@
 @tailwind base;
 @tailwind components;
+@tailwind utilities;
 
-.mangacontrol-body {
-  @apply fixed bottom-0 inset-x-0;
-  background-color: red;
+.menu {
+  @apply absolute -inset-y-0 left-0 z-10 w-80;
+  @apply bg-gray-100 shadow-lg;
+  @apply flex flex-col p-6 gap-y-6;
 }
 
-@tailwind utilities;
+.control-title {
+  @apply flex flex-row gap-x-2;
+}
+.control {
+  @apply flex flex-col gap-y-2;
+}
