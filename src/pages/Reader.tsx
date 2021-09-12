@@ -2,7 +2,7 @@ import React, { MouseEvent, Props } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import MangaControl from 'components/mangacontrol';
-import 'pages/reader.css';
+import 'pages/Reader.css';
 
 import { fetchZip, extractZip, ZipInfo } from 'services/archive.service';
 import queryString from 'query-string';
@@ -15,7 +15,10 @@ interface State {
   zipped: ZipInfo[],
   images: (string|null)[],
   pageCount: number,
-  readerMode: ReaderMode
+  readerMode: ReaderMode,
+  mangafile: Readonly<State>,
+  chapter: Readonly<State>,
+  page: Readonly<State>
 }
 
 class Reader extends React.Component<any, State> { // fix typing up
@@ -27,9 +30,13 @@ class Reader extends React.Component<any, State> { // fix typing up
       zipped: [],
       images: [],
       pageCount: 0,
-      readerMode: ReaderMode.longStrip
+      readerMode: ReaderMode.longStrip,
+      mangafile: this.props.match.params.mangafile,
+      chapter: this.props.match.params.chapter,
+      page: this.props.match.params.page
     };
   }
+
 
   queryManga = async () => {
     const qs = queryString.parse(this.props.location.search);
