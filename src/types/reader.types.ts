@@ -5,12 +5,12 @@ export interface ReaderSettings {
 }
 
 export enum ReaderMode {
-  longStrip = 1,
-  scrolling
+  longStrip = "Long Strip",
+  scrolling = "Scrolling"
 }
 
 export enum ImageSizing {
-  fitWidth = 1,
-  fitHeight
+  fitWidth = "Fit Width",
+  fitHeight = "Fit Height"
 }
 

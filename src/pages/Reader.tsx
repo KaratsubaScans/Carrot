@@ -2,7 +2,7 @@ import React, { MouseEvent, Props } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
-import MangaControl from 'components/mangacontrol';
+import MangaControl from 'components/MangaControl';
 import 'pages/Reader.css';
 import { ReaderSettings, ReaderMode, ImageSizing } from 'types/reader.types';
 
@@ -103,6 +103,7 @@ class Reader extends React.Component<any, State> { // fix typing up
         </div>
         <MangaControl
           readerSettings={this.state.readerSettings}
+          updateReaderSettings={this.updateReaderSettings}
         ></MangaControl>
         <button className="mangacontrol-toggle">
             A
