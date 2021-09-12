@@ -94,9 +94,6 @@ class Reader extends React.Component<any, State> { // fix typing up
           readerSettings={this.state.readerSettings}
           updateReaderSettings={this.updateReaderSettings}
         ></MangaControl>
-       <button className="mangacontrol-toggle">
-            A
-        </button>
  
         <h1>Manga Reader Page</h1>
         <div className="mangaimage-container">

@@ -5,7 +5,11 @@
 .menu {
   @apply absolute -inset-y-0 left-0 z-10 w-80;
   @apply bg-gray-100 shadow-lg;
-  @apply flex flex-col p-6 gap-y-6;
+  @apply flex flex-col p-6 gap-y-6 transition-all duration-300;
+}
+
+.menu-closed {
+  @apply -ml-80;
 }
 
 .control-title {

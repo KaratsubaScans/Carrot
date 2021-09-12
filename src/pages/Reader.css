@@ -9,9 +9,3 @@
 .mangaimage {
   @apply m-8 w-1/2;
 }
-
-.mangacontrol-toggle {
-  @apply fixed bottom-0 left-0 m-4 w-10 h-10;
-  @apply rounded-full flex items-center justify-center;
-  background-color: blue;
-}
