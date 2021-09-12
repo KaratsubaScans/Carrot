@@ -1,24 +1,22 @@
 import React, { MouseEvent, Props } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+
 import MangaControl from 'components/mangacontrol';
 import 'pages/Reader.css';
+import { ReaderSettings, ReaderMode, ImageSizing } from 'types/reader.types';
 
 import { fetchZip, extractZip, ZipInfo } from 'services/archive.service';
 import queryString from 'query-string';
-
-enum ReaderMode {
-  longStrip = 1
-}
 
 interface State {
   zipped: ZipInfo[],
   images: (string|null)[],
   pageCount: number,
-  readerMode: ReaderMode,
   mangafile: Readonly<State>,
   chapter: Readonly<State>,
   page: Readonly<State>
+  readerSettings: ReaderSettings
 }
 
 class Reader extends React.Component<any, State> { // fix typing up
@@ -30,10 +28,13 @@ class Reader extends React.Component<any, State> { // fix typing up
       zipped: [],
       images: [],
       pageCount: 0,
-      readerMode: ReaderMode.longStrip,
       mangafile: this.props.match.params.mangafile,
       chapter: this.props.match.params.chapter,
-      page: this.props.match.params.page
+      page: this.props.match.params.page,
+      readerSettings: {
+        readerMode: ReaderMode.longStrip,
+        imageSizing: ImageSizing.fitHeight
+      }
     };
   }
 
@@ -69,13 +70,18 @@ class Reader extends React.Component<any, State> { // fix typing up
         images: this.state.images.splice(pageNumber, 1, rawImg)
       }
     });
+  }
 
+  updateReaderSettings = (newReaderSettings: ReaderSettings) => {
+    this.setState(curState => ({
+      ...curState,
+      readerSettings: newReaderSettings
+    }));
   }
 
   async componentDidMount() {
-    await this.queryManga();
-    await this.loadPage(1);
-
+    // await this.queryManga();
+    // await this.loadPage(1);
   }
 
   render() {
@@ -95,7 +101,9 @@ class Reader extends React.Component<any, State> { // fix typing up
             )
           })}
         </div>
-        {/* <MangaControl></MangaControl> */}
+        <MangaControl
+          readerSettings={this.state.readerSettings}
+        ></MangaControl>
         <button className="mangacontrol-toggle">
             A
         </button>
