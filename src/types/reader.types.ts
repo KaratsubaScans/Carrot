@@ -14,3 +14,8 @@ export enum ImageSizing {
   fitHeight = "Fit Height"
 }
 
+export enum ColourTheme {
+  light = "Light",
+  dark = "Dark"
+}
+
