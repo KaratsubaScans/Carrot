@@ -10,6 +10,9 @@ import colorSwatchIcon from 'assets/menu/color-swatch.svg'
 import photographIcon from 'assets/menu/photograph.svg'
 import leftArrowIcon from 'assets/menu/left-arrow.svg'
 import rightArrowIcon from 'assets/menu/right-arrow.svg'
+import downloadIcon from 'assets/menu/download.svg'
+import shareIcon from 'assets/menu/share.svg'
+import rssIcon from 'assets/menu/rss.svg'
 
 type Props = {
   readerSettings: ReaderSettings,
@@ -89,11 +92,20 @@ const MangaControl = (props: Props) => {
             HotKeys
           </button>
         </div>
-        <div>
-          Checkboxes
+        <div className="regular">
+          <input type="checkbox" id="autoLoad" />
+          <label htmlFor="autoLoad" className="px-2">Autoload next page</label>
         </div>
-        <div>
-          Icons
+        <div className="control-title">
+          <button>
+            <img src={shareIcon} alt="Share" />
+          </button>
+          <button>
+            <img src={rssIcon} alt="RSS" />
+          </button>
+          <button>
+            <img src={downloadIcon} alt="Download" />
+          </button>
         </div>
     </div>
   </div>
