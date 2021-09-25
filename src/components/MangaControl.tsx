@@ -2,17 +2,7 @@ import React, { Component, useState } from 'react';
 
 import { ReaderSettings, ReaderMode, ImageSizing, ColourTheme } from 'types/reader.types';
 import 'components/MangaControl.css';
-import titleIcon from 'assets/menu/title.svg'
-import bookmarkIcon from 'assets/menu/bookmark.svg'
-import bookOpenIcon from 'assets/menu/book-open.svg'
-import checkmarkIcon from 'assets/menu/checkmark.svg'
-import colorSwatchIcon from 'assets/menu/color-swatch.svg'
-import photographIcon from 'assets/menu/photograph.svg'
-import leftArrowIcon from 'assets/menu/left-arrow.svg'
-import rightArrowIcon from 'assets/menu/right-arrow.svg'
-import downloadIcon from 'assets/menu/download.svg'
-import shareIcon from 'assets/menu/share.svg'
-import rssIcon from 'assets/menu/rss.svg'
+import { TitleIcon, BookmarkIcon, BookOpenIcon, CheckMarkIcon, ColorSwatchIcon, PhotographIcon, LeftArrowIcon, RightArrowIcon, DownloadIcon, ShareIcon, RssIcon } from 'components/Icons'
 
 type Props = {
   readerSettings: ReaderSettings,
@@ -25,23 +15,23 @@ const MangaControl = (props: Props) => {
     <div className="menuWrapper no-scrollbar pr-12">
       <div className={menu ? "menu" : "menu menu-closed"}>
         <div className="absolute inset-y-0 right-0 flex justify-center items-center mr-2">
-          <button onClick={() => {setMenu(!menu)}} className="bg-gray-100 p-2 shadow-lg rounded">
-            <img src={menu ? leftArrowIcon : rightArrowIcon} alt="Expand/Collapse Menu" />
+          <button onClick={() => {setMenu(!menu)}} className="bg-gray-100 dark:bg-gray-700 p-2 shadow-lg rounded">
+            { menu ? <LeftArrowIcon/> : <RightArrowIcon/> }
           </button>
 
         </div>
         <div>
-          <img className="float-left mr-2" src={titleIcon} alt="Title Icon" />
+          <TitleIcon className="float-left mr-2"/>
           <div className="heading">
-            Shang-Chi and the Ten Rings <img className="inline-block" src={checkmarkIcon} alt="checkmark" />
+            Shang-Chi and the Ten Rings <CheckMarkIcon className="inline-block"/>
           </div>
         </div>
         <div className="control">
           <div className="control-title">
-            <img src={bookmarkIcon} alt="Bookmark Icon" />
+            <BookmarkIcon/>
             <div className="title">Chapter</div>
           </div>
-          <select className="subtitle p-2">
+          <select className="subtitle dropdown">
             {Object.values(ReaderMode).map((readerMode: string) =>
               (<option className="subtitle" value={readerMode} key={readerMode}>{readerMode}</option>) 
             )}    
@@ -50,10 +40,10 @@ const MangaControl = (props: Props) => {
   
         <div className="control">
           <div className="control-title">
-            <img src={bookOpenIcon} alt="Reading Icon" />
+            <BookOpenIcon/> 
             <div className="title">Reading Mode</div>
           </div>
-          <select className="subtitle p-2">
+          <select className="subtitle dropdown">
             {Object.values(ReaderMode).map((readerMode: string) =>
               (<option className="subtitle" value={readerMode} key={readerMode}>{readerMode}</option>) 
             )}    
@@ -62,10 +52,10 @@ const MangaControl = (props: Props) => {
   
         <div className="control">
           <div className="control-title">
-            <img src={photographIcon} alt="Image Icon" />
+            <PhotographIcon/>
             <div className="title">Image Size</div>
           </div>
-          <select className="subtitle p-2">
+          <select className="subtitle dropdown">
             {Object.values(ImageSizing).map((item: string) =>
               (<option className="subtitle" value={item} key={item}>{item}</option>) 
             )}    
@@ -74,12 +64,12 @@ const MangaControl = (props: Props) => {
   
         <div className="control">
           <div className="control-title">
-            <img src={colorSwatchIcon} alt="Color Icon" />
+            <ColorSwatchIcon/>
             <div className="title">Colour Theme</div>
           </div>
           <div className="control-title">
             <input type="color" value="#ff0000" />
-            <select className="subtitle p-2 w-full">
+            <select className="subtitle dropdown w-full">
               {Object.values(ColourTheme).map((item: string) =>
                 (<option className="subtitle" value={item} key={item}>{item}</option>) 
               )}    
@@ -98,13 +88,13 @@ const MangaControl = (props: Props) => {
         </div>
         <div className="control-title">
           <button>
-            <img src={shareIcon} alt="Share" />
+            <ShareIcon/>
           </button>
           <button>
-            <img src={rssIcon} alt="RSS" />
+            <RssIcon/>
           </button>
           <button>
-            <img src={downloadIcon} alt="Download" />
+            <DownloadIcon/>
           </button>
         </div>
     </div>

@@ -13,11 +13,11 @@ const Layout = ({children}: any ) => {
   const [colorTheme, setTheme] = useDarkMode()
 
   return (
-    <div className="dark">
+    <div className="layout-background">
       <div className="nav">
         <img src={Logo} alt="Logo" />
         <h1 className="heading pl-2">Karatsuba Scan&apos;s Carrot Reader</h1>
-        <button onClick={() => setTheme(colorTheme)}>Toggle</button>
+        <button className="border rounded-lg text-white bg-gray-700 p-2 m-2" onClick={() => setTheme(colorTheme)}>Toggle</button>
 
       </div>
 

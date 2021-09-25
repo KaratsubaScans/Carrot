@@ -8,5 +8,3 @@
 .nav-item {
   @apply block text-center p-4;
 }
-
-@tailwind utilities;
