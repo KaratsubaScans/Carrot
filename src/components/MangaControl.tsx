@@ -6,11 +6,30 @@ import { TitleIcon, BookmarkIcon, BookOpenIcon, CheckMarkIcon, ColorSwatchIcon, 
 
 type Props = {
   readerSettings: ReaderSettings,
-  updateReaderSettings: (newReaderSettings: ReaderSettings) => void
+  updateReaderSettings: (newReaderSettings: ReaderSettings) => void,
+  chapters: string[],
+  chapter: string,
+  updateChapter: (newChapter: string) => void,
 }
 
 const MangaControl = (props: Props) => {
   const [menu, setMenu] = useState(true)
+  const { readerSettings, updateReaderSettings, chapter, chapters, updateChapter } = props;
+
+  const changeReaderMode = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    updateReaderSettings({...readerSettings, readerMode: event.currentTarget.value as ReaderMode });
+  };
+  const changeImageSizing = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    updateReaderSettings({...readerSettings, imageSizing: event.currentTarget.value as ImageSizing });
+  };
+  const changeColourTheme = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    updateReaderSettings({...readerSettings, colourTheme: event.currentTarget.value as ColourTheme });
+  };
+  const changeChapter = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    updateChapter(event.currentTarget.value);
+  };
+
+
   return (
     <div className="menuWrapper no-scrollbar pr-12">
       <div className={menu ? "menu" : "menu menu-closed"}>
@@ -31,9 +50,9 @@ const MangaControl = (props: Props) => {
             <BookmarkIcon/>
             <div className="title">Chapter</div>
           </div>
-          <select className="subtitle dropdown">
-            {Object.values(ReaderMode).map((readerMode: string) =>
-              (<option className="subtitle" value={readerMode} key={readerMode}>{readerMode}</option>) 
+          <select className="subtitle dropdown" onChange={changeChapter} value={chapter}>
+            {Object.values(chapters).map((chapter: string) =>
+              (<option className="subtitle" value={chapter} key={chapter}>{chapter}</option>) 
             )}    
           </select>
         </div>
@@ -43,7 +62,7 @@ const MangaControl = (props: Props) => {
             <BookOpenIcon/> 
             <div className="title">Reading Mode</div>
           </div>
-          <select className="subtitle dropdown">
+          <select className="subtitle dropdown" onChange={changeReaderMode} value={readerSettings.readerMode}>
             {Object.values(ReaderMode).map((readerMode: string) =>
               (<option className="subtitle" value={readerMode} key={readerMode}>{readerMode}</option>) 
             )}    
@@ -55,7 +74,7 @@ const MangaControl = (props: Props) => {
             <PhotographIcon/>
             <div className="title">Image Size</div>
           </div>
-          <select className="subtitle dropdown">
+          <select className="subtitle dropdown" onChange={changeImageSizing} value={readerSettings.imageSizing}>
             {Object.values(ImageSizing).map((item: string) =>
               (<option className="subtitle" value={item} key={item}>{item}</option>) 
             )}    
@@ -69,7 +88,7 @@ const MangaControl = (props: Props) => {
           </div>
           <div className="control-title">
             <input type="color" value="#ff0000" />
-            <select className="subtitle dropdown w-full">
+            <select className="subtitle dropdown w-full" onChange={changeColourTheme} value={readerSettings.colourTheme}>
               {Object.values(ColourTheme).map((item: string) =>
                 (<option className="subtitle" value={item} key={item}>{item}</option>) 
               )}    
