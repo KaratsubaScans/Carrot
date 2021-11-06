@@ -1,23 +1,25 @@
-import React, { MouseEvent, Props } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import { HelmetProvider } from 'react-helmet-async';
 
 import MangaControl from 'components/MangaControl';
 import 'pages/Reader.css';
-import { ReaderSettings, ReaderMode, ImageSizing, ColourTheme } from 'types/reader.types';
+import { ReaderSettings, ReaderMode, ImageSizing, ColourTheme, Chapter } from 'types/reader.types';
 
 import { fetchZip, extractZip, ZipInfo } from 'services/archive.service';
+import { getChapters } from 'utils/requests';
 import queryString from 'query-string';
 
 interface State {
   zipped: ZipInfo[],
   images: (string|null)[],
   pageCount: number,
-  mangafile: Readonly<State>,
+  mangafile: string,
   chapter: string,
-  page: Readonly<State>
+  chapters: Chapter[],
+  page: string,
+  pages: string[],
   readerSettings: ReaderSettings,
-  chapters: string[],
 }
 
 class Reader extends React.Component<any, State> { // fix typing up
@@ -31,34 +33,43 @@ class Reader extends React.Component<any, State> { // fix typing up
       pageCount: 0,
       mangafile: this.props.match.params.mangafile,
       chapter: this.props.match.params.chapter,
+      chapters: [{name: 'hello'}, {name: 'helld'}],
       page: this.props.match.params.page,
+      pages: ['1','2','3','4','5','6'],
       readerSettings: {
         readerMode: ReaderMode.longStrip,
         imageSizing: ImageSizing.fitHeight,
         colourTheme: ColourTheme.light,
       },
-      chapters: ['1','2','3','4','5','6'],
     };
   }
 
 
   queryManga = async () => {
-    const qs = queryString.parse(this.props.location.search);
+    // const qs = queryString.parse(this.props.location.search);
 
-    const zipInfo = await fetchZip(`https://files.karatsubascans.com/${qs.mangafile}`);
+    // const zipInfo = await fetchZip(`https://files.karatsubascans.com/${qs.mangafile}`);
 
-    // const inflatedImages: string[] = [];
-    // for await (const deflated of zipInfo) {
-    //   const inflated = await extractZip(deflated.contents);
-    //   inflatedImages.push(inflated.toString('base64'));
-    // }
+    // // const inflatedImages: string[] = [];
+    // // for await (const deflated of zipInfo) {
+    // //   const inflated = await extractZip(deflated.contents);
+    // //   inflatedImages.push(inflated.toString('base64'));
+    // // }
 
-    this.setState(curState => ({
-      ...curState,
-      zipped: zipInfo,
-      images: zipInfo.map(zip => null),
-      pageCount: zipInfo.length
-    }));
+    // this.setState(curState => ({
+    //   ...curState,
+    //   zipped: zipInfo,
+    //   images: zipInfo.map(zip => null),
+    //   pageCount: zipInfo.length
+    // }));
+
+    
+
+    const chapters = await getChapters(this.state.mangafile, this.state.chapter);
+    this.setState({
+      chapters
+    });
+
   }
 
   loadPage = async (pageNumber: number) => {
@@ -89,23 +100,34 @@ class Reader extends React.Component<any, State> { // fix typing up
     }))
   }
 
+  updatePage = (newPage: string) => {
+    this.setState(curState => ({
+      ...curState,
+      page: newPage,
+    }))
+  }
+
+
   async componentDidMount() {
-    // await this.queryManga();
+    await this.queryManga();
     // await this.loadPage(1);
   }
 
   render() {
     return (
       <div>
-        <Helmet>
+        <HelmetProvider>
           <title>Karatsuba | Read</title>
-        </Helmet>
+        </HelmetProvider>
         <MangaControl
           readerSettings={this.state.readerSettings}
           updateReaderSettings={this.updateReaderSettings}
           chapter={this.state.chapter}
           chapters={this.state.chapters}
           updateChapter={this.updateChapter}
+          page={this.state.page}
+          pages={this.state.pages}
+          updatePage={this.updatePage}
         ></MangaControl>
  
         <h1>Manga Reader Page</h1>

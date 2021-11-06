@@ -20,3 +20,6 @@ export enum ColourTheme {
   dark = "Dark"
 }
 
+export type Chapter = {
+  name: string
+};
