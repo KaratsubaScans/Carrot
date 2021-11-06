@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { ReaderSettings, ReaderMode, ImageSizing, ColourTheme, Chapter } from 'types/reader.types';
+import { ReaderSettings, ReaderMode, ImageSizing, ColourTheme, Chapter, Page } from 'types/reader.types';
 import 'components/MangaControl.css';
 import { TitleIcon, BookmarkIcon, BookOpenIcon, CheckMarkIcon, ColorSwatchIcon, PhotographIcon, LeftArrowIcon, RightArrowIcon, DownloadIcon, ShareIcon, RssIcon } from 'components/Icons'
 
@@ -8,11 +8,11 @@ type Props = {
   readerSettings: ReaderSettings,
   updateReaderSettings: (newReaderSettings: ReaderSettings) => void,
   chapters: Chapter[],
-  chapter: string,
-  updateChapter: (newChapter: string) => void,
-  page: string,
-  pages: string[],
-  updatePage: (newPage: string) => void,
+  chapter: number,
+  updateChapter: (newChapter: number) => void,
+  page: number,
+  pages: Page[],
+  updatePage: (newPage: number) => void,
 }
 
 const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
@@ -29,10 +29,10 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
     updateReaderSettings({...readerSettings, colourTheme: event.currentTarget.value as ColourTheme });
   };
   const changeChapter = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    updateChapter(event.currentTarget.value);
+    updateChapter(+event.currentTarget.value);
   };
   const changePage = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    updatePage(event.currentTarget.value);
+    updatePage(+event.currentTarget.value);
   };
 
 
@@ -59,7 +59,7 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
           </div>
           <select className="subtitle dropdown" onChange={changeChapter} value={chapter}>
             {Object.values(chapters).map((chapter: Chapter, index: number) =>
-              (<option className="subtitle" value={index} key={chapter.name}>{index}</option>) 
+              (<option className="subtitle" value={index} key={index}>{chapter.name}</option>) 
             )}    
           </select>
         </div>
@@ -70,8 +70,8 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
             <div className="title">Page</div>
           </div>
           <select className="subtitle dropdown" onChange={changePage} value={page}>
-            {Object.values(pages).map((page: string) =>
-              (<option className="subtitle" value={page} key={page}>{page}</option>) 
+            {Object.values(pages).map((page: Page, index: number) =>
+              (<option className="subtitle" value={index} key={index}>{page.name}</option>) 
             )}    
           </select>
         </div>

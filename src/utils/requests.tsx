@@ -1,17 +1,37 @@
 import axios from 'axios';
-import { Chapter } from 'types/reader.types';
+import { Chapter, Page } from 'types/reader.types';
 
-export const getChapters = async (mangafile: string, chapter: string): Promise<Chapter[]> => {
+export const getPages = async (mangafile: string, chapter: number): Promise<Page[]> => {
 
     const url = `https://files.karatsubascans.com/${mangafile}/jpg/chapter${chapter}`;
-    let {data: chapters} = await axios.get(url);
+    let {data: pages} = await axios.get(url);
 
     // filter out useless stuff
-    chapters = chapters.map((chapter: Record<string, unknown>) => (
+    pages = pages.map((page: Record<string, unknown>) => (
       {
-        name: chapter.name,
+        name: page.name,
       }
     ));
+    return pages;
+
+
+};
+
+export const getChapters = async (mangafile: string): Promise<Chapter[]> => {
+
+    const url = `https://files.karatsubascans.com/${mangafile}/jpg`;
+    let {data: chapters} = await axios.get(url);
+    console.log(chapters)
+
+    // filter out useless stuff
+    chapters = chapters.reduce((result: Chapter[], chapter: Record<string,unknown>) => {
+      const name = chapter.name as string;
+      console.log(name, "name")
+      if (!name.includes('.zip')) {
+        result.push({name: name})
+      }
+      return result;
+    }, []);
     return chapters;
 
 

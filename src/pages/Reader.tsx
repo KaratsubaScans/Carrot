@@ -4,10 +4,10 @@ import { HelmetProvider } from 'react-helmet-async';
 
 import MangaControl from 'components/MangaControl';
 import 'pages/Reader.css';
-import { ReaderSettings, ReaderMode, ImageSizing, ColourTheme, Chapter } from 'types/reader.types';
+import { ReaderSettings, ReaderMode, ImageSizing, ColourTheme, Page, Chapter } from 'types/reader.types';
 
 import { fetchZip, extractZip, ZipInfo } from 'services/archive.service';
-import { getChapters } from 'utils/requests';
+import { getPages, getChapters } from 'utils/requests';
 import queryString from 'query-string';
 
 interface State {
@@ -15,10 +15,10 @@ interface State {
   images: (string|null)[],
   pageCount: number,
   mangafile: string,
-  chapter: string,
+  chapter: number,
   chapters: Chapter[],
-  page: string,
-  pages: string[],
+  page: number,
+  pages: Page[],
   readerSettings: ReaderSettings,
 }
 
@@ -32,10 +32,10 @@ class Reader extends React.Component<any, State> { // fix typing up
       images: [],
       pageCount: 0,
       mangafile: this.props.match.params.mangafile,
-      chapter: this.props.match.params.chapter,
-      chapters: [{name: 'hello'}, {name: 'helld'}],
-      page: this.props.match.params.page,
-      pages: ['1','2','3','4','5','6'],
+      chapter: this.props.match.params.chapter-1,
+      chapters: [],
+      page: this.props.match.params.page-1,
+      pages: [],
       readerSettings: {
         readerMode: ReaderMode.longStrip,
         imageSizing: ImageSizing.fitHeight,
@@ -65,9 +65,11 @@ class Reader extends React.Component<any, State> { // fix typing up
 
     
 
-    const chapters = await getChapters(this.state.mangafile, this.state.chapter);
+    const pages = await getPages(this.state.mangafile, this.state.chapter);
+    const chapters = await getChapters(this.state.mangafile);
     this.setState({
-      chapters
+      chapters,
+      pages
     });
 
   }
@@ -93,14 +95,14 @@ class Reader extends React.Component<any, State> { // fix typing up
     }));
   }
 
-  updateChapter = (newChapter: string) => {
+  updateChapter = (newChapter: number) => {
     this.setState(curState => ({
       ...curState,
       chapter: newChapter,
     }))
   }
 
-  updatePage = (newPage: string) => {
+  updatePage = (newPage: number) => {
     this.setState(curState => ({
       ...curState,
       page: newPage,
