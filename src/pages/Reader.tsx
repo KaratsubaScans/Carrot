@@ -65,8 +65,8 @@ class Reader extends React.Component<any, State> { // fix typing up
 
     
 
-    const pages = await getPages(this.state.mangafile, this.state.chapter);
     const chapters = await getChapters(this.state.mangafile);
+    const pages = await getPages(this.state.mangafile, chapters[this.state.chapter].name);
     this.setState({
       chapters,
       pages
@@ -74,18 +74,36 @@ class Reader extends React.Component<any, State> { // fix typing up
 
   }
 
-  loadPage = async (pageNumber: number) => {
+  loadPage = async (pageNumber = -1) => {
     /* TODO check if page is valid */
 
-    const inflated = await extractZip(this.state.zipped[pageNumber].contents);
-    const rawImg = inflated.toString('base64');
+    // const inflated = await extractZip(this.state.zipped[pageNumber].contents);
+    // const rawImg = inflated.toString('base64');
 
-    this.setState(curState => {
-      return {
-        ...curState,
-        images: this.state.images.splice(pageNumber, 1, rawImg)
+    // this.setState(curState => {
+    //   return {
+    //     ...curState,
+    //     images: this.state.images.splice(pageNumber, 1, rawImg)
+    //   }
+    // });
+
+    if (pageNumber === -1) {
+      console.log(this.state.chapters, 'chapters');
+      console.log(this.state.pages, 'pages');
+      // load everything
+      const images = [];
+      for (let i = 0; i < this.state.pages.length; i += 1) {
+        images.push(`https://files.karatsubascans.com/${this.state.mangafile}/jpg/`+
+          `${this.state.chapters[this.state.chapter].name}/`+
+          `${this.state.pages[i].name}`);
       }
-    });
+
+      this.setState({
+        images
+      });
+    }
+
+
   }
 
   updateReaderSettings = (newReaderSettings: ReaderSettings) => {
@@ -112,7 +130,7 @@ class Reader extends React.Component<any, State> { // fix typing up
 
   async componentDidMount() {
     await this.queryManga();
-    // await this.loadPage(1);
+    await this.loadPage();
   }
 
   render() {
@@ -138,7 +156,7 @@ class Reader extends React.Component<any, State> { // fix typing up
             if (image == null) return;
             return (
               <div className="mangaimage" key={ind}>
-                <img src={`data:image/jpeg;base64,${image}`}/>
+                <img src={image}/>
               </div>
             )
           })}
