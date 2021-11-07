@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { Chapter, Page } from 'types/reader.types';
+import { API_URL } from 'config'
 
 export const getPages = async (mangafile: string, chapter: string): Promise<Page[]> => {
 
-    const url = `https://files.karatsubascans.com/${mangafile}/jpg/${chapter}`;
+    const url = `${API_URL}/${mangafile}/jpg/${chapter}`;
     let {data: pages} = await axios.get(url);
 
     // filter out useless stuff
@@ -17,7 +18,7 @@ export const getPages = async (mangafile: string, chapter: string): Promise<Page
 
 export const getChapters = async (mangafile: string): Promise<Chapter[]> => {
 
-    const url = `https://files.karatsubascans.com/${mangafile}/jpg`;
+    const url = `${API_URL}/${mangafile}/jpg`;
     let {data: chapters} = await axios.get(url);
 
     // filter out useless stuff

@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { withRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import { InView } from 'react-intersection-observer';
 
 import MangaControl from 'components/MangaControl';
 import 'pages/Reader.css';
@@ -9,6 +10,7 @@ import { ReaderSettings, ReaderMode, ImageSizing, ColourTheme, Page, Chapter } f
 import { fetchZip, extractZip, ZipInfo } from 'services/archive.service';
 import { getPages, getChapters } from 'utils/requests';
 import queryString from 'query-string';
+import { API_URL } from 'config';
 
 interface State {
   zipped: ZipInfo[],
@@ -94,7 +96,7 @@ class Reader extends React.Component<any, State> {
       // load everything
       const images = [];
       for (let i = 0; i < this.state.pages.length; i += 1) {
-        images.push(`https://files.karatsubascans.com/${this.state.mangafile}/jpg/`+
+        images.push(`${API_URL}/${this.state.mangafile}/jpg/`+
           `${this.state.chapters[this.state.chapter].name}/`+
           `${this.state.pages[i].name}`);
       }
@@ -123,13 +125,19 @@ class Reader extends React.Component<any, State> {
 
   }
 
-  updatePage = (newPage: number) => {
+  updatePage = (newPage: number, scroll = false) => {
     this.props.history.replace({ pathname: `/read/${this.state.mangafile}/${this.props.match.params.chapter}/${newPage+1}`})
     this.setState(curState => ({
       ...curState,
       page: newPage,
-    }), () => this.myRef?.current?.scrollIntoView())
+    }), () => !scroll && this.myRef?.current?.scrollIntoView())
     
+  }
+
+  checkVisible = (inView: boolean, ind: number) => {
+    if (inView) {
+      this.updatePage(ind, true)
+    }
   }
 
 
@@ -164,9 +172,11 @@ class Reader extends React.Component<any, State> {
             }
             if (image == null) return;
             return (
-              <div className="mangaimage" key={ind} ref={ref}>
-                 <img src={image}/>
-              </div>
+              <InView as="div" key={ind} threshold={0.5} onChange={(inView, entry) => this.checkVisible(inView, ind)}>
+                <div className="mangaimage" key={ind} ref={ref}>
+                  <img src={image}/>
+                </div>
+              </InView>
             )
           })}
           {this.state.readerSettings.readerMode}
