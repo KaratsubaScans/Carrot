@@ -6,6 +6,7 @@
   @apply w-80;
   @apply bg-gray-100 dark:bg-gray-800 shadow-lg ;
   @apply flex flex-col p-6 gap-y-6 transition-all duration-300;
+  @apply h-full;
 }
 
 .menu-closed {
@@ -19,7 +20,7 @@
 }
 
 .menuWrapper {
-  @apply  absolute -inset-y-0 left-0 z-10 overflow-y-auto overflow-x-hidden;
+  @apply  fixed -inset-y-0 left-0 z-10 overflow-y-auto overflow-x-hidden;
 }
 
 .control-title {
