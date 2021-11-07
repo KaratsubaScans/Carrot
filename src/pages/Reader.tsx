@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { withRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
@@ -22,7 +22,8 @@ interface State {
   readerSettings: ReaderSettings,
 }
 
-class Reader extends React.Component<any, State> { // fix typing up
+class Reader extends React.Component<any, State> {
+  myRef: React.RefObject<HTMLDivElement>; // fix typing up
 
   constructor(props: any) {
     super(props);
@@ -42,6 +43,8 @@ class Reader extends React.Component<any, State> { // fix typing up
         colourTheme: ColourTheme.light,
       },
     };
+
+    this.myRef = React.createRef();
   }
 
 
@@ -88,8 +91,6 @@ class Reader extends React.Component<any, State> { // fix typing up
     // });
 
     if (pageNumber === -1) {
-      console.log(this.state.chapters, 'chapters');
-      console.log(this.state.pages, 'pages');
       // load everything
       const images = [];
       for (let i = 0; i < this.state.pages.length; i += 1) {
@@ -100,7 +101,10 @@ class Reader extends React.Component<any, State> { // fix typing up
 
       this.setState({
         images
-      });
+      }, () => {
+        this.myRef?.current?.scrollIntoView()});
+
+    
     }
 
 
@@ -114,17 +118,18 @@ class Reader extends React.Component<any, State> { // fix typing up
   }
 
   updateChapter = (newChapter: number) => {
-    this.setState(curState => ({
-      ...curState,
-      chapter: newChapter,
-    }))
+    this.props.history.push(`/read/${this.state.mangafile}/${newChapter+1}/${1}`);
+    this.props.history.go(0);
+
   }
 
   updatePage = (newPage: number) => {
+    this.props.history.replace({ pathname: `/read/${this.state.mangafile}/${this.props.match.params.chapter}/${newPage+1}`})
     this.setState(curState => ({
       ...curState,
       page: newPage,
-    }))
+    }), () => this.myRef?.current?.scrollIntoView())
+    
   }
 
 
@@ -153,10 +158,14 @@ class Reader extends React.Component<any, State> { // fix typing up
         <h1>Manga Reader Page</h1>
         <div className="mangaimage-container">
           {this.state.images.map((image, ind) => {
+            let ref;
+            if (this.state.page === ind) {
+              ref = this.myRef;
+            }
             if (image == null) return;
             return (
-              <div className="mangaimage" key={ind}>
-                <img src={image}/>
+              <div className="mangaimage" key={ind} ref={ref}>
+                 <img src={image}/>
               </div>
             )
           })}

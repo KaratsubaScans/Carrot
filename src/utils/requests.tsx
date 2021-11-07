@@ -19,7 +19,6 @@ export const getChapters = async (mangafile: string): Promise<Chapter[]> => {
 
     const url = `https://files.karatsubascans.com/${mangafile}/jpg`;
     let {data: chapters} = await axios.get(url);
-    console.log(chapters)
 
     // filter out useless stuff
     chapters = chapters.reduce((result: Chapter[], chapter: Record<string,unknown>) => {

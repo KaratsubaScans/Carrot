@@ -13,7 +13,7 @@ function App() {
       <Layout>
           <Switch>
             <Route exact path="/"><Home/></Route>
-            <Route path="/read/:mangafile/:chapter/:page"><Reader/></Route>
+            <Route exact path="/read/:mangafile/:chapter/:page"><Reader/></Route>
           </Switch>
       </Layout>
     </Router>

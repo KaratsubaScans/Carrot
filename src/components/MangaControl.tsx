@@ -29,6 +29,7 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
     updateReaderSettings({...readerSettings, colourTheme: event.currentTarget.value as ColourTheme });
   };
   const changeChapter = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log(event.currentTarget.value);
     updateChapter(+event.currentTarget.value);
   };
   const changePage = (event: React.ChangeEvent<HTMLSelectElement>) => {
