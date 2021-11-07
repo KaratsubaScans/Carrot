@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 
 import MangaControl from 'components/MangaControl';
 import 'pages/Reader.css';
-import { ReaderSettings, ReaderMode, ImageSizing } from 'types/reader.types';
+import { ReaderSettings, ReaderMode, ImageSizing, ColourTheme } from 'types/reader.types';
 
 import { fetchZip, extractZip, ZipInfo } from 'services/archive.service';
 import queryString from 'query-string';
@@ -14,9 +14,10 @@ interface State {
   images: (string|null)[],
   pageCount: number,
   mangafile: Readonly<State>,
-  chapter: Readonly<State>,
+  chapter: string,
   page: Readonly<State>
-  readerSettings: ReaderSettings
+  readerSettings: ReaderSettings,
+  chapters: string[],
 }
 
 class Reader extends React.Component<any, State> { // fix typing up
@@ -33,8 +34,10 @@ class Reader extends React.Component<any, State> { // fix typing up
       page: this.props.match.params.page,
       readerSettings: {
         readerMode: ReaderMode.longStrip,
-        imageSizing: ImageSizing.fitHeight
-      }
+        imageSizing: ImageSizing.fitHeight,
+        colourTheme: ColourTheme.light,
+      },
+      chapters: ['1','2','3','4','5','6'],
     };
   }
 
@@ -79,6 +82,13 @@ class Reader extends React.Component<any, State> { // fix typing up
     }));
   }
 
+  updateChapter = (newChapter: string) => {
+    this.setState(curState => ({
+      ...curState,
+      chapter: newChapter,
+    }))
+  }
+
   async componentDidMount() {
     // await this.queryManga();
     // await this.loadPage(1);
@@ -93,6 +103,9 @@ class Reader extends React.Component<any, State> { // fix typing up
         <MangaControl
           readerSettings={this.state.readerSettings}
           updateReaderSettings={this.updateReaderSettings}
+          chapter={this.state.chapter}
+          chapters={this.state.chapters}
+          updateChapter={this.updateChapter}
         ></MangaControl>
  
         <h1>Manga Reader Page</h1>
@@ -105,6 +118,9 @@ class Reader extends React.Component<any, State> { // fix typing up
               </div>
             )
           })}
+          {this.state.readerSettings.readerMode}
+          {this.state.readerSettings.imageSizing}
+          {this.state.readerSettings.colourTheme}
         </div>
      </div>
     )

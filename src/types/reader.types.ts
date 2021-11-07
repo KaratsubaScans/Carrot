@@ -1,7 +1,8 @@
 
 export interface ReaderSettings {
   readerMode: ReaderMode,
-  imageSizing: ImageSizing 
+  imageSizing: ImageSizing,
+  colourTheme: ColourTheme,
 }
 
 export enum ReaderMode {
