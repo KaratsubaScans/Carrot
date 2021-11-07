@@ -7,4 +7,5 @@
 
 .mangaimage {
   @apply m-8 w-1/2;
+  @apply h-screen;
 }
