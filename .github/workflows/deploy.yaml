@@ -19,6 +19,9 @@ jobs:
           script: |
             cd /var/www/Carrot
             git pull
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+
             npm install
             npm run build
             pm2 reload carrot-frontend
