@@ -6,9 +6,14 @@ export default class Home extends React.Component {
   render() {
     return (
       <div>
-        <h1>Home</h1>
-        <Link className="nav-item" to="/">Home</Link>
-        <Link className="nav-item" to="/read/mob/1/23">Reader</Link>
+        <div className="h-28"></div>
+        <h1 className="heading">Home</h1>
+        This is still in beta. Here are the current links that are usable:
+        <div className="flex flex-col">
+          <Link className="header" to="/read/girls_last_tour/1/1">Girl&#39;s Last Tour</Link>
+          <Link className="header" to="/read/mob_psycho/1/1">Mob Psycho</Link>
+        </div>
+
       </div>
     )
   }

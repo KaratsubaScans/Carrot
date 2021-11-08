@@ -172,8 +172,8 @@ class Reader extends React.Component<any, State> {
             }
             if (image == null) return;
             return (
-              <InView as="div" key={ind} threshold={0.5} onChange={(inView, entry) => this.checkVisible(inView, ind)}>
-                <div className="mangaimage" key={ind} ref={ref}>
+              <InView as="div" key={ind} className="mangaimage" threshold={0.5} onChange={(inView, entry) => this.checkVisible(inView, ind)}>
+                <div  key={ind} ref={ref}>
                   <img src={image}/>
                 </div>
               </InView>
