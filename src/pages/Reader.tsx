@@ -107,10 +107,8 @@ class Reader extends React.Component<any, State> {
         images,
         loaded: true,
       }, () => {
-        console.log('set')
         this.myRef?.current?.scrollIntoView()
       });
-
 
     }
 
