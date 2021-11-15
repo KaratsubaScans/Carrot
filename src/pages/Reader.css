@@ -5,7 +5,10 @@
   @apply flex flex-col items-center;
 }
 
-.mangaimage {
-  @apply m-8 w-1/2;
+.FitHeight {
   @apply h-screen;
+}
+.FitWidth {
+  @apply w-screen;
+  max-width: 100%;
 }
