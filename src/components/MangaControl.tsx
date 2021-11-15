@@ -14,8 +14,8 @@ import {
   DownloadIcon,
   ShareIcon,
   RssIcon,
-  ChevronLeft,
-  ChevronRight,
+  ChevronLeftIcon,
+  ChevronRightIcon,
 } from 'components/Icons'
 
 type Props = {
@@ -49,18 +49,26 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
   const changePage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     updatePage(+event.currentTarget.value);
   };
-  const nextChapter = (next = true) => {
-    if (next && chapter + 1 < chapters.length) {
+  const nextChapter = () => {
+    if (chapter + 1 < chapters.length) {
       updateChapter(chapter + 1)
-    } else if (chapter - 1 >= 0) {
+    }
+  };
+  const previousChapter = () => {
+    if (chapter - 1 >= 0) {
       updateChapter(chapter - 1)
     }
   };
 
-  const nextPage = (next = true) => {
-    if (next && page + 1 < pages.length) {
+
+  const nextPage = () => {
+    if (page + 1 < pages.length) {
       updatePage(page + 1)
-    } else if (page - 1 >= 0) {
+    }
+  };
+
+  const previousPage = () => {
+    if (page - 1 >= 0) {
       updatePage(page - 1)
     }
   };
@@ -89,8 +97,8 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
             <div className="title">Chapter</div>
           </div>
           <div className="control-title">
-            <button onClick={() => nextChapter(false)}>
-              <ChevronLeft className="flex-none" />
+            <button onClick={() => previousChapter()}>
+              <ChevronLeftIcon className="flex-none" />
             </button>
             <select className="subtitle dropdown flex-grow" onChange={changeChapter} value={chapter}>
               {Object.values(chapters).map((chapter: Chapter, index: number) =>
@@ -98,7 +106,7 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
               )}
             </select>
             <button onClick={() => nextChapter()}>
-              <ChevronRight className="flex-none" />
+              <ChevronRightIcon className="flex-none" />
             </button>
           </div>
         </div>
@@ -109,8 +117,8 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
             <div className="title">Page</div>
           </div>
           <div className="control-title">
-            <button onClick={() => nextPage(false)}>
-              <ChevronLeft className="flex-none" />
+            <button onClick={() => previousPage()}>
+              <ChevronLeftIcon className="flex-none" />
             </button>
             <select className="subtitle dropdown flex-grow" onChange={changePage} value={page}>
               {Object.values(pages).map((page: Page, index: number) =>
@@ -118,7 +126,7 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
               )}
             </select>
             <button onClick={() => nextPage()}>
-              <ChevronRight className="flex-none" />
+              <ChevronRightIcon className="flex-none" />
             </button>
           </div>
         </div>
