@@ -23,7 +23,7 @@
 }
 
 .control-title {
-  @apply flex flex-row gap-x-2;
+  @apply flex flex-row gap-x-2 content-center items-center;
 }
 .control {
   @apply flex flex-col gap-y-2;
