@@ -51,6 +51,15 @@ class Reader extends React.Component<any, State> {
     this.myRef = React.createRef();
   }
 
+  mangaName = (): string => {
+    return this.state.mangafile
+      .split('_')
+      .map((word) => word[0].toLocaleUpperCase() + word.substring(1))
+      .join(' ');
+
+  }
+
+
 
   queryManga = async () => {
     // const qs = queryString.parse(this.props.location.search);
@@ -171,6 +180,7 @@ class Reader extends React.Component<any, State> {
           <title>Karatsuba | Read</title>
         </HelmetProvider>
         <MangaControl
+          mangaName={this.mangaName()}
           readerSettings={this.state.readerSettings}
           updateReaderSettings={this.updateReaderSettings}
           chapter={this.state.chapter}
