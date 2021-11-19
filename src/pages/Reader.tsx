@@ -14,7 +14,7 @@ import { API_URL } from 'config';
 
 interface State {
   zipped: ZipInfo[],
-  images: (string|null)[],
+  images: (string | null)[],
   pageCount: number,
   mangafile: string,
   chapter: number,
@@ -36,9 +36,9 @@ class Reader extends React.Component<any, State> {
       images: [],
       pageCount: 0,
       mangafile: this.props.match.params.mangafile,
-      chapter: this.props.match.params.chapter-1,
+      chapter: this.props.match.params.chapter - 1,
       chapters: [],
-      page: this.props.match.params.page-1,
+      page: this.props.match.params.page - 1,
       pages: [],
       loaded: false,
       readerSettings: {
@@ -70,7 +70,7 @@ class Reader extends React.Component<any, State> {
     //   pageCount: zipInfo.length
     // }));
 
-    
+
 
     const chapters = await getChapters(this.state.mangafile);
     const pages = await getPages(this.state.mangafile, chapters[this.state.chapter].name);
@@ -98,8 +98,8 @@ class Reader extends React.Component<any, State> {
       // load everything
       const images = [];
       for (let i = 0; i < this.state.pages.length; i += 1) {
-        images.push(`${API_URL}/${this.state.mangafile}/jpg/`+
-          `${this.state.chapters[this.state.chapter].name}/`+
+        images.push(`${API_URL}/${this.state.mangafile}/jpg/` +
+          `${this.state.chapters[this.state.chapter].name}/` +
           `${this.state.pages[i].name}`);
       }
 
@@ -107,9 +107,9 @@ class Reader extends React.Component<any, State> {
         images,
         loaded: true,
       }, () => {
-        this.myRef?.current?.scrollIntoView()});
+        this.myRef?.current?.scrollIntoView()
+      });
 
-    
     }
 
 
@@ -123,18 +123,18 @@ class Reader extends React.Component<any, State> {
   }
 
   updateChapter = (newChapter: number) => {
-    this.props.history.push(`/read/${this.state.mangafile}/${newChapter+1}/${1}`);
+    this.props.history.push(`/read/${this.state.mangafile}/${newChapter + 1}/${1}`);
     this.props.history.go(0);
 
   }
 
   updatePage = (newPage: number, scroll = false) => {
-    this.props.history.replace({ pathname: `/read/${this.state.mangafile}/${this.props.match.params.chapter}/${newPage+1}`})
+    this.props.history.replace({ pathname: `/read/${this.state.mangafile}/${this.props.match.params.chapter}/${newPage + 1}` })
     this.setState(curState => ({
       ...curState,
       page: newPage,
     }), () => (!scroll && this.state.loaded) && this.myRef?.current?.scrollIntoView())
-    
+
   }
 
   checkVisible = (inView: boolean, ind: number) => {
@@ -174,7 +174,7 @@ class Reader extends React.Component<any, State> {
           pages={this.state.pages}
           updatePage={this.updatePage}
         ></MangaControl>
- 
+
         <h1>Manga Reader Page</h1>
         <div className="mangaimage-container">
           {this.state.images.map((image, ind) => {
@@ -184,14 +184,14 @@ class Reader extends React.Component<any, State> {
             }
             if (image == null) return;
             return (
-              <InView 
-              as="div" 
-              key={ind} 
-              threshold={0.5} 
-              onChange={(inView, entry) => this.checkVisible(inView, ind)}
-              className={this.toClasses([this.state.readerSettings.imageSizing, this.state.readerSettings.readerMode])}
+              <InView
+                as="div"
+                key={ind}
+                threshold={0.5}
+                onChange={(inView, entry) => this.checkVisible(inView, ind)}
+                className={this.toClasses([this.state.readerSettings.imageSizing, this.state.readerSettings.readerMode])}
               >
-                  <img src={image} ref={ref} className="w-full h-full" />
+                <img src={image} ref={ref} className="w-full h-full object-contain" />
               </InView>
             )
           })}
@@ -199,7 +199,7 @@ class Reader extends React.Component<any, State> {
           {this.state.readerSettings.imageSizing}
           {this.state.readerSettings.colourTheme}
         </div>
-     </div>
+      </div>
     )
   }
 }
