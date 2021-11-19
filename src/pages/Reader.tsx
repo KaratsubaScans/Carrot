@@ -140,7 +140,6 @@ class Reader extends React.Component<any, State> {
 
   checkVisible = (inView: boolean, ind: number) => {
     if (inView) {
-      console.log('dafkdfjls')
       this.updatePage(ind, true)
     }
   }
