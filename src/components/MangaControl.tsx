@@ -19,6 +19,7 @@ import {
 } from 'components/Icons'
 
 type Props = {
+  mangaName: string,
   readerSettings: ReaderSettings,
   updateReaderSettings: (newReaderSettings: ReaderSettings) => void,
   chapters: Chapter[],
@@ -88,7 +89,8 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
         <div>
           <TitleIcon className="float-left mr-2" />
           <div className="heading">
-            Shang-Chi and the Ten Rings <CheckMarkIcon className="inline-block" />
+            {props.mangaName}
+            <CheckMarkIcon className="inline-block" />
           </div>
         </div>
         <div className="control">

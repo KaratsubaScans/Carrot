@@ -51,6 +51,15 @@ class Reader extends React.Component<any, State> {
     this.myRef = React.createRef();
   }
 
+  mangaName = (): string => {
+    return this.state.mangafile
+      .split('_')
+      .map((word) => word[0].toLocaleUpperCase() + word.substring(1))
+      .join(' ');
+
+  }
+
+
 
   queryManga = async () => {
     // const qs = queryString.parse(this.props.location.search);
@@ -72,7 +81,13 @@ class Reader extends React.Component<any, State> {
 
 
 
-    const chapters = await getChapters(this.state.mangafile);
+    let chapters: Chapter[] = [];
+    try {
+      chapters = await getChapters(this.state.mangafile);
+    } catch (err) {
+      this.props.history.push('/404');
+      return;
+    }
     const pages = await getPages(this.state.mangafile, chapters[this.state.chapter].name);
     this.setState({
       chapters,
@@ -165,6 +180,7 @@ class Reader extends React.Component<any, State> {
           <title>Karatsuba | Read</title>
         </HelmetProvider>
         <MangaControl
+          mangaName={this.mangaName()}
           readerSettings={this.state.readerSettings}
           updateReaderSettings={this.updateReaderSettings}
           chapter={this.state.chapter}
@@ -191,7 +207,7 @@ class Reader extends React.Component<any, State> {
                 onChange={(inView, entry) => this.checkVisible(inView, ind)}
                 className={this.toClasses([this.state.readerSettings.imageSizing, this.state.readerSettings.readerMode])}
               >
-                <img src={image} ref={ref} className="w-full h-full object-contain" />
+                <img src={image} ref={ref} className="w-full h-full object-contain placeholder-transparent" />
               </InView>
             )
           })}
