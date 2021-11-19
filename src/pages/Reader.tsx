@@ -21,11 +21,12 @@ interface State {
   chapters: Chapter[],
   page: number,
   pages: Page[],
+  loaded: boolean,
   readerSettings: ReaderSettings,
 }
 
 class Reader extends React.Component<any, State> {
-  myRef: React.RefObject<HTMLDivElement>; // fix typing up
+  myRef: React.RefObject<HTMLImageElement>; // fix typing up
 
   constructor(props: any) {
     super(props);
@@ -39,6 +40,7 @@ class Reader extends React.Component<any, State> {
       chapters: [],
       page: this.props.match.params.page-1,
       pages: [],
+      loaded: false,
       readerSettings: {
         readerMode: ReaderMode.longStrip,
         imageSizing: ImageSizing.fitHeight,
@@ -102,7 +104,8 @@ class Reader extends React.Component<any, State> {
       }
 
       this.setState({
-        images
+        images,
+        loaded: true,
       }, () => {
         this.myRef?.current?.scrollIntoView()});
 
@@ -130,7 +133,7 @@ class Reader extends React.Component<any, State> {
     this.setState(curState => ({
       ...curState,
       page: newPage,
-    }), () => !scroll && this.myRef?.current?.scrollIntoView())
+    }), () => (!scroll && this.state.loaded) && this.myRef?.current?.scrollIntoView())
     
   }
 
@@ -138,6 +141,15 @@ class Reader extends React.Component<any, State> {
     if (inView) {
       this.updatePage(ind, true)
     }
+  }
+
+
+  toClasses = (options: string[]) => {
+    let classes = '';
+    for (let i = 0; i < options.length; i += 1) {
+      classes += options[i].split(' ').join('') + ' ';
+    }
+    return classes;
   }
 
 
@@ -172,10 +184,14 @@ class Reader extends React.Component<any, State> {
             }
             if (image == null) return;
             return (
-              <InView as="div" key={ind} className="mangaimage" threshold={0.5} onChange={(inView, entry) => this.checkVisible(inView, ind)}>
-                <div  key={ind} ref={ref}>
-                  <img src={image}/>
-                </div>
+              <InView 
+              as="div" 
+              key={ind} 
+              threshold={0.5} 
+              onChange={(inView, entry) => this.checkVisible(inView, ind)}
+              className={this.toClasses([this.state.readerSettings.imageSizing, this.state.readerSettings.readerMode])}
+              >
+                  <img src={image} ref={ref} className="w-full h-full" />
               </InView>
             )
           })}
