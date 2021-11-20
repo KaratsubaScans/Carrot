@@ -3,6 +3,7 @@ export interface ReaderSettings {
   readerMode: ReaderMode,
   imageSizing: ImageSizing,
   colourTheme: ColourTheme,
+  menu: Menu,
 }
 
 export enum ReaderMode {
@@ -20,6 +21,10 @@ export enum ColourTheme {
   dark = "dark"
 }
 
+export enum Menu {
+  open = "open",
+  close = "close"
+}
 export type Page = {
   name: string
 };

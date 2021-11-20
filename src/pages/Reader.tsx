@@ -3,10 +3,11 @@ import { withRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { InView } from 'react-intersection-observer';
 
+import Loader from 'components/Loader'
 import MangaControl from 'components/MangaControl';
 import 'pages/Reader.css';
-import { ReaderSettings, ReaderMode, ImageSizing, ColourTheme, Page, Chapter } from 'types/reader.types';
-import Loader from 'components/Loader'
+
+import { ReaderSettings, ReaderMode, ImageSizing, ColourTheme, Page, Chapter, Menu } from 'types/reader.types';
 
 import { fetchZip, extractZip, ZipInfo } from 'services/archive.service';
 import { getPages, getChapters, getImage } from 'utils/requests';
@@ -32,27 +33,29 @@ class Reader extends React.Component<any, State> {
 
   constructor(props: any) {
     super(props);
-    let readerSettings = {
+    const readerSettings = {
       readerMode: ReaderMode.longStrip,
       imageSizing: ImageSizing.fitHeight,
       colourTheme: ColourTheme.light,
+      menu: Menu.open,
     }
 
     const savedSettings = localStorage.getItem('carrotSettings');
     if (savedSettings) {
       try {
         const parsedSettings = JSON.parse(savedSettings)
-        if (!parsedSettings.readerMode) {
-          parsedSettings.readerMode = ReaderMode.longStrip;
+        if (parsedSettings.readerMode) {
+          readerSettings.readerMode = parsedSettings.readerMode;
         }
-        if (!parsedSettings.imageSizing) {
-          parsedSettings.imageSizing = ImageSizing.fitHeight;
+        if (parsedSettings.imageSizing) {
+          readerSettings.imageSizing = parsedSettings.imageSizing;
         }
-        if (!parsedSettings.colourTheme) {
-          parsedSettings.colourTheme = ColourTheme.light;
+        if (parsedSettings.colourTheme) {
+          readerSettings.colourTheme = parsedSettings.colourTheme;
         }
-
-        readerSettings = parsedSettings
+        if (parsedSettings.menu) {
+          readerSettings.menu = parsedSettings.menu;
+        }
       }
       catch (err) {
         console.log('No settings found.')
