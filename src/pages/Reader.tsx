@@ -15,8 +15,8 @@ import { API_URL } from 'config';
 
 interface State {
   zipped: ZipInfo[],
-  images: (string)[],
-  imageFiles: (string)[],
+  images: string[],
+  imageFiles: string[],
   pageCount: number,
   mangafile: string,
   chapter: number,

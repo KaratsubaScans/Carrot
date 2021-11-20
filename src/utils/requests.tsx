@@ -35,7 +35,6 @@ export const getChapters = async (mangafile: string): Promise<Chapter[]> => {
 export const getImage = async (url: string): Promise<string> => {
 
   const { data } = await axios.get(url, { responseType: 'arraybuffer' });
-  console.log('yataa')
 
   const b64 = Buffer.from(data, 'binary').toString('base64');
 
