@@ -3,18 +3,21 @@ import { withRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { InView } from 'react-intersection-observer';
 
+import Loader from 'components/Loader'
 import MangaControl from 'components/MangaControl';
 import 'pages/Reader.css';
+
 import { ReaderSettings, ReaderMode, ImageSizing, ColourTheme, Page, Chapter, Menu } from 'types/reader.types';
 
 import { fetchZip, extractZip, ZipInfo } from 'services/archive.service';
-import { getPages, getChapters } from 'utils/requests';
+import { getPages, getChapters, getImage } from 'utils/requests';
 import queryString from 'query-string';
 import { API_URL } from 'config';
 
 interface State {
   zipped: ZipInfo[],
-  images: (string | null)[],
+  images: string[],
+  imageFiles: string[],
   pageCount: number,
   mangafile: string,
   chapter: number,
@@ -62,6 +65,7 @@ class Reader extends React.Component<any, State> {
     this.state = {
       zipped: [],
       images: [],
+      imageFiles: [],
       pageCount: 0,
       mangafile: this.props.match.params.mangafile,
       chapter: this.props.match.params.chapter - 1,
@@ -83,27 +87,15 @@ class Reader extends React.Component<any, State> {
 
   }
 
+  loadImage = async (src: string) => {
+    const img = new Image();
+    img.src = src;
+    return img;
+
+  }
 
 
   queryManga = async () => {
-    // const qs = queryString.parse(this.props.location.search);
-
-    // const zipInfo = await fetchZip(`https://files.karatsubascans.com/${qs.mangafile}`);
-
-    // // const inflatedImages: string[] = [];
-    // // for await (const deflated of zipInfo) {
-    // //   const inflated = await extractZip(deflated.contents);
-    // //   inflatedImages.push(inflated.toString('base64'));
-    // // }
-
-    // this.setState(curState => ({
-    //   ...curState,
-    //   zipped: zipInfo,
-    //   images: zipInfo.map(zip => null),
-    //   pageCount: zipInfo.length
-    // }));
-
-
 
     let chapters: Chapter[] = [];
     try {
@@ -117,41 +109,40 @@ class Reader extends React.Component<any, State> {
       chapters,
       pages
     });
-
   }
 
   loadPage = async (pageNumber = -1) => {
-    /* TODO check if page is valid */
-
-    // const inflated = await extractZip(this.state.zipped[pageNumber].contents);
-    // const rawImg = inflated.toString('base64');
-
-    // this.setState(curState => {
-    //   return {
-    //     ...curState,
-    //     images: this.state.images.splice(pageNumber, 1, rawImg)
-    //   }
-    // });
-
     if (pageNumber === -1) {
       // load everything
-      const images = [];
+      const images: string[] = [];
+      const promises: (() => void)[] = [];
+      const imageFiles = []
       for (let i = 0; i < this.state.pages.length; i += 1) {
         images.push(`${API_URL}/${this.state.mangafile}/jpg/` +
           `${this.state.chapters[this.state.chapter].name}/` +
           `${this.state.pages[i].name}`);
+        imageFiles.push('')
+        const loadFunction = async (url: string, index: number) => {
+          const file = await getImage(url);
+          const imageFiles = this.state.imageFiles
+          imageFiles[index] = `data:image/png;base64,${file}`;
+          this.setState({
+            imageFiles
+          })
+        }
+        promises.push(() => loadFunction(images[i], i))
       }
 
       this.setState({
         images,
+        imageFiles,
         loaded: true,
       }, () => {
         this.myRef?.current?.scrollIntoView()
+        promises.map(task => task())
       });
 
     }
-
-
   }
 
   updateReaderSettings = (newReaderSettings: ReaderSettings) => {
@@ -217,7 +208,7 @@ class Reader extends React.Component<any, State> {
   }
 
   handleMouseEvent = (e: MouseEvent<HTMLDivElement>) => {
-    console.log(e.pageX, e.clientX, window.innerWidth)
+    console.log(this.state.imageFiles)
     if (e.pageX < window.innerWidth * 0.5) {
       this.previousPage();
     } else {
@@ -249,8 +240,8 @@ class Reader extends React.Component<any, State> {
           updateChapter={this.updateChapter}
           page={this.state.page}
           pages={this.state.pages}
-          nextPage={this.nextChapter}
-          previousPage={this.previousChapter}
+          nextPage={this.nextPage}
+          previousPage={this.previousPage}
           updatePage={this.updatePage}
         ></MangaControl>
 
@@ -259,21 +250,25 @@ class Reader extends React.Component<any, State> {
           {
             this.state.readerSettings.readerMode === 'Long Strip' ?
               (
-                this.state.images.map((image, ind) => {
+                this.state.pages.map((page, ind) => {
                   let ref;
                   if (this.state.page === ind) {
                     ref = this.myRef;
                   }
-                  if (image == null) return;
                   return (
                     <InView
                       as="div"
                       key={ind}
-                      threshold={0.5}
+                      threshold={0.3}
                       onChange={(inView, entry) => this.checkVisible(inView, ind)}
                       className={this.toClasses([this.state.readerSettings.imageSizing, this.state.readerSettings.readerMode])}
                     >
-                      <img src={image} ref={ref} className="w-full h-full object-contain placeholder-transparent" />
+                      {
+                        (this.state.imageFiles[ind] !== "") ? <img src={this.state.imageFiles[ind]} ref={ref} className="w-full h-full object-contain" />
+                          :
+                          <Loader refImg={ref} />
+                      }
+
                     </InView>
                   )
                 })
@@ -285,7 +280,13 @@ class Reader extends React.Component<any, State> {
                   onChange={(inView, entry) => this.checkVisible(inView, this.state.page)}
                   className={this.toClasses([this.state.readerSettings.imageSizing, this.state.readerSettings.readerMode])}
                 >
-                  <img src={this.state.images[this.state.page] || undefined} className="w-full h-full object-contain placeholder-transparent" />
+                  {
+
+                    (this.state.imageFiles[this.state.page] !== '') ?
+                      <img src={this.state.imageFiles[this.state.page]} className="w-full h-full object-contain" />
+                      :
+                      <Loader refImg={this.myRef} />
+                  }
                 </InView>
               )
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
+import Loader from 'components/Loader'
 
 export default class Home extends React.Component {
 
@@ -17,6 +18,7 @@ export default class Home extends React.Component {
         <div className="flex flex-col w-44">
           <Link className="header" to="/read/girls_last_tour/1/1">Girl&#39;s Last Tour</Link>
           <Link className="header" to="/read/mob_psycho/1/1">Mob Psycho</Link>
+          <Loader />
         </div>
       </div>
     )

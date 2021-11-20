@@ -19,7 +19,7 @@
 }
 
 .menuWrapper {
-  @apply fixed -inset-y-0 left-0 z-10 overflow-y-auto overflow-x-hidden;
+  @apply fixed -inset-y-0 left-0 z-20 overflow-y-auto overflow-x-hidden;
 }
 
 .control-title {
