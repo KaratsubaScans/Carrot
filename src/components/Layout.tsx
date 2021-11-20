@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 import Logo from 'assets/logo/logo.svg'
 import './Layout.css'
 import useDarkMode from 'hooks/useDarkMode'
+import { SunIcon, MoonIcon } from 'components/Icons'
 import { prependOnceListener } from 'process';
+import { ColourTheme } from 'types/reader.types';
 
 type layoutProps = {
   children: JSX.Element
@@ -19,8 +21,10 @@ const Layout = (props: layoutProps) => {
         <button onClick={() => console.log('home')}>
           <img src={Logo} alt="Logo" />
         </button>
-        <h1 className="heading pl-2">Karatsuba Scan&apos;s Carrot Reader</h1>
-        <button className="border rounded-lg text-white bg-gray-700 p-2 m-2" onClick={() => setTheme(colorTheme)}>Toggle</button>
+        <h1 className="heading pl-4">Karatsuba Scan&apos;s Carrot Reader</h1>
+        <button className="absolute dark:text-white text-black p-2 m-2 right-0 inset-y-0" onClick={() => setTheme(colorTheme)}>
+          {colorTheme === ColourTheme.light ? (<MoonIcon />) : (<SunIcon />)}
+        </button>
 
       </div>
 
