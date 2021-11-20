@@ -1,27 +1,36 @@
 import React, { Component } from 'react';
+import { useHistory } from 'react-router';
 
 import Logo from 'assets/logo/logo.svg'
 import './Layout.css'
 import useDarkMode from 'hooks/useDarkMode'
+import { SunIcon, MoonIcon } from 'components/Icons'
+import { prependOnceListener } from 'process';
+import { ColourTheme } from 'types/reader.types';
 
 type layoutProps = {
   children: JSX.Element
 }
 
-const Layout = ({children}: any ) => {
+const Layout = (props: layoutProps) => {
+  const history = useHistory();
 
   const [colorTheme, setTheme] = useDarkMode()
 
   return (
     <div className="layout-background">
       <div className="nav">
-        <img src={Logo} alt="Logo" />
-        <h1 className="heading pl-2">Karatsuba Scan&apos;s Carrot Reader</h1>
-        <button className="border rounded-lg text-white bg-gray-700 p-2 m-2" onClick={() => setTheme(colorTheme)}>Toggle</button>
+        <button onClick={() => history.push('/')}>
+          <img src={Logo} alt="Logo" />
+        </button>
+        <h1 className="heading pl-4">Karatsuba Scan&apos;s Carrot Reader</h1>
+        <button className="absolute dark:text-white text-black p-2 m-2 right-0 inset-y-0" onClick={() => setTheme(colorTheme)}>
+          {colorTheme === ColourTheme.light ? (<MoonIcon />) : (<SunIcon />)}
+        </button>
 
       </div>
 
-      <main>{children}</main>
+      <main>{props.children}</main>
     </div>
   );
 

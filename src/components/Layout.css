@@ -2,6 +2,6 @@
 @tailwind components;
 
 .nav {
-  @apply bg-gray-100 shadow p-2 flex flex-row justify-center;
+  @apply bg-gray-100 shadow p-2 flex flex-row justify-center content-center items-center;
   @apply dark:bg-gray-800 fixed w-full h-20;
 }

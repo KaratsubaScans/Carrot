@@ -16,8 +16,8 @@ export enum ImageSizing {
 }
 
 export enum ColourTheme {
-  light = "Light",
-  dark = "Dark"
+  light = "light",
+  dark = "dark"
 }
 
 export type Page = {

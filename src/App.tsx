@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async'
 
 import Home from 'pages/Home';
 import Reader from 'pages/Reader';
@@ -9,15 +10,17 @@ import NotFound from 'pages/NotFound'
 
 function App() {
   return (
-    <Router>
-      <Layout>
-        <Switch>
-          <Route exact path="/"><Home /></Route>
-          <Route exact path="/read/:mangafile/:chapter/:page"><Reader /></Route>
-          <Route exact><NotFound /></Route>
-        </Switch>
-      </Layout>
-    </Router>
+    <HelmetProvider>
+      <Router>
+        <Layout>
+          <Switch>
+            <Route exact path="/"><Home /></Route>
+            <Route exact path="/read/:mangafile/:chapter/:page"><Reader /></Route>
+            <Route exact><NotFound /></Route>
+          </Switch>
+        </Layout>
+      </Router>
+    </HelmetProvider>
   );
 }
 

@@ -1,6 +1,6 @@
 import React, { useRef, MouseEvent } from 'react';
 import { withRouter } from 'react-router-dom';
-import { HelmetProvider } from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
 import { InView } from 'react-intersection-observer';
 
 import MangaControl from 'components/MangaControl';
@@ -210,9 +210,9 @@ class Reader extends React.Component<any, State> {
   render() {
     return (
       <div>
-        <HelmetProvider>
-          <title>Karatsuba | Read</title>
-        </HelmetProvider>
+        <Helmet>
+          <title>{this.mangaName()} | Carrot Reader</title>
+        </Helmet>
         <MangaControl
           mangaName={this.mangaName()}
           readerSettings={this.state.readerSettings}
