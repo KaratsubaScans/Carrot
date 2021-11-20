@@ -1,0 +1,9 @@
+.loader {
+  @apply border bg-blue-100 shadow rounded-md p-4 my-5 w-full h-full object-contain flex items-center justify-center;
+}
+
+.loader-container {
+  @apply animate-pulse;
+  width: 90vw;
+  height: 90vh;
+}

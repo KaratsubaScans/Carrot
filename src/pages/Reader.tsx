@@ -6,6 +6,7 @@ import { InView } from 'react-intersection-observer';
 import MangaControl from 'components/MangaControl';
 import 'pages/Reader.css';
 import { ReaderSettings, ReaderMode, ImageSizing, ColourTheme, Page, Chapter } from 'types/reader.types';
+import Loader from 'components/Loader'
 
 import { fetchZip, extractZip, ZipInfo } from 'services/archive.service';
 import { getPages, getChapters } from 'utils/requests';
@@ -14,7 +15,7 @@ import { API_URL } from 'config';
 
 interface State {
   zipped: ZipInfo[],
-  images: (string | null)[],
+  images: (string)[],
   pageCount: number,
   mangafile: string,
   chapter: number,
@@ -133,11 +134,13 @@ class Reader extends React.Component<any, State> {
 
     if (pageNumber === -1) {
       // load everything
-      const images = [];
+      const images: never[] = [];
       for (let i = 0; i < this.state.pages.length; i += 1) {
+        /*
         images.push(`${API_URL}/${this.state.mangafile}/jpg/` +
           `${this.state.chapters[this.state.chapter].name}/` +
           `${this.state.pages[i].name}`);
+          */
       }
 
       this.setState({
@@ -247,8 +250,8 @@ class Reader extends React.Component<any, State> {
           updateChapter={this.updateChapter}
           page={this.state.page}
           pages={this.state.pages}
-          nextPage={this.nextChapter}
-          previousPage={this.previousChapter}
+          nextPage={this.nextPage}
+          previousPage={this.previousPage}
           updatePage={this.updatePage}
         ></MangaControl>
 
@@ -257,21 +260,25 @@ class Reader extends React.Component<any, State> {
           {
             this.state.readerSettings.readerMode === 'Long Strip' ?
               (
-                this.state.images.map((image, ind) => {
+                this.state.pages.map((page, ind) => {
                   let ref;
                   if (this.state.page === ind) {
                     ref = this.myRef;
                   }
-                  if (image == null) return;
                   return (
                     <InView
                       as="div"
                       key={ind}
-                      threshold={0.5}
+                      threshold={0.3}
                       onChange={(inView, entry) => this.checkVisible(inView, ind)}
                       className={this.toClasses([this.state.readerSettings.imageSizing, this.state.readerSettings.readerMode])}
                     >
-                      <img src={image} ref={ref} className="w-full h-full object-contain placeholder-transparent" />
+                      {
+                        this.state.images[ind] ? <img src={this.state.images[ind]} ref={ref} className="w-full h-full object-contain" />
+                          :
+                          <Loader refImg={ref} />
+                      }
+
                     </InView>
                   )
                 })
@@ -283,7 +290,7 @@ class Reader extends React.Component<any, State> {
                   onChange={(inView, entry) => this.checkVisible(inView, this.state.page)}
                   className={this.toClasses([this.state.readerSettings.imageSizing, this.state.readerSettings.readerMode])}
                 >
-                  <img src={this.state.images[this.state.page] || undefined} className="w-full h-full object-contain placeholder-transparent" />
+                  <img src={this.state.images[this.state.page] || undefined} className="w-full h-full object-contain" />
                 </InView>
               )
 
