@@ -36,7 +36,7 @@ type Props = {
 
 const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
   const { readerSettings, updateReaderSettings, chapter, chapters, updateChapter, page, pages, updatePage } = props;
-  const changeMenuState = () => {
+  const toggleMenuState = () => {
     updateReaderSettings({ ...readerSettings, menu: readerSettings.menu === Menu.open ? Menu.close : Menu.open, });
   };
   const changeReaderMode = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -62,7 +62,7 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
     <div className="menuWrapper no-scrollbar pr-12">
       <div className={readerSettings.menu === Menu.open ? "menu" : "menu menu-closed"}>
         <div className="absolute inset-y-0 right-0 flex justify-center items-center mr-2">
-          <button onClick={() => { changeMenuState() }} className="bg-gray-100 dark:bg-gray-700 p-2 shadow-lg rounded">
+          <button onClick={() => { toggleMenuState() }} className="bg-gray-100 dark:bg-gray-700 p-2 shadow-lg rounded">
             {readerSettings.menu === Menu.open ? <LeftArrowIcon /> : <RightArrowIcon />}
           </button>
         </div>

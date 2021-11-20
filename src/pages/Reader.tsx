@@ -30,7 +30,7 @@ class Reader extends React.Component<any, State> {
 
   constructor(props: any) {
     super(props);
-    let readerSettings = {
+    const readerSettings = {
       readerMode: ReaderMode.longStrip,
       imageSizing: ImageSizing.fitHeight,
       colourTheme: ColourTheme.light,
@@ -41,19 +41,18 @@ class Reader extends React.Component<any, State> {
     if (savedSettings) {
       try {
         const parsedSettings = JSON.parse(savedSettings)
-        if (!parsedSettings.readerMode) {
-          parsedSettings.readerMode = ReaderMode.longStrip;
+        if (parsedSettings.readerMode) {
+          readerSettings.readerMode = parsedSettings.readerMode;
         }
-        if (!parsedSettings.imageSizing) {
-          parsedSettings.imageSizing = ImageSizing.fitHeight;
+        if (parsedSettings.imageSizing) {
+          readerSettings.imageSizing = parsedSettings.imageSizing;
         }
-        if (!parsedSettings.colourTheme) {
-          parsedSettings.colourTheme = ColourTheme.light;
+        if (parsedSettings.colourTheme) {
+          readerSettings.colourTheme = parsedSettings.colourTheme;
         }
-        if (!parsedSettings.menu) {
-          parsedSettings.menu = Menu.open;
+        if (parsedSettings.menu) {
+          readerSettings.menu = parsedSettings.menu;
         }
-        readerSettings = parsedSettings
       }
       catch (err) {
         console.log('No settings found.')
