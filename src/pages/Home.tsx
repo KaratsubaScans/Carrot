@@ -1,11 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 
 export default class Home extends React.Component {
 
   render() {
     return (
       <div>
+        <Helmet>
+          <title>Home | Carrot Reader</title>
+        </Helmet>
+
         <div className="h-28"></div>
         <h1 className="heading">Home</h1>
         This is still in beta. Here are the current links that are usable:
