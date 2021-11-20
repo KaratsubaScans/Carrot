@@ -8,7 +8,7 @@ const Loader = (props: Props) => {
   return (
     <div className="loader" ref={props.refImg}>
       <div className="loader-container">
-        <div className=" bg-gray-400 rounded-3xl w-full h-full"></div>
+        <div className=" bg-gray-200 rounded-3xl w-full h-full"></div>
       </div>
     </div>
   );
