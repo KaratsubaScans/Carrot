@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { useHistory } from 'react-router';
 
 import Logo from 'assets/logo/logo.svg'
 import './Layout.css'
@@ -12,13 +13,14 @@ type layoutProps = {
 }
 
 const Layout = (props: layoutProps) => {
+  const history = useHistory();
 
   const [colorTheme, setTheme] = useDarkMode()
 
   return (
     <div className="layout-background">
       <div className="nav">
-        <button onClick={() => console.log('home')}>
+        <button onClick={() => history.push('/')}>
           <img src={Logo} alt="Logo" />
         </button>
         <h1 className="heading pl-4">Karatsuba Scan&apos;s Carrot Reader</h1>
