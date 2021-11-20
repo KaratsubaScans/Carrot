@@ -3,5 +3,5 @@
 
 .nav {
   @apply bg-gray-100 shadow p-2 flex flex-row justify-center;
-  @apply dark:bg-gray-800 fixed w-full;
+  @apply dark:bg-gray-800 fixed w-full h-20;
 }

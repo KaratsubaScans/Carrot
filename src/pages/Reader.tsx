@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, MouseEvent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { InView } from 'react-intersection-observer';
@@ -152,6 +152,30 @@ class Reader extends React.Component<any, State> {
 
   }
 
+  nextChapter = () => {
+    if (this.state.chapter + 1 < this.state.chapters.length) {
+      this.updateChapter(this.state.chapter + 1)
+    }
+  };
+  previousChapter = () => {
+    if (this.state.chapter - 1 >= 0) {
+      this.updateChapter(this.state.chapter - 1)
+    }
+  };
+  nextPage = () => {
+    if (this.state.page + 1 < this.state.pages.length) {
+      this.updatePage(this.state.page + 1)
+    }
+  };
+  previousPage = () => {
+    if (this.state.page - 1 >= 0) {
+      this.updatePage(this.state.page - 1)
+    }
+  };
+
+
+
+
   checkVisible = (inView: boolean, ind: number) => {
     if (inView) {
       this.updatePage(ind, true)
@@ -165,6 +189,16 @@ class Reader extends React.Component<any, State> {
       classes += options[i].split(' ').join('') + ' ';
     }
     return classes;
+  }
+
+  handleMouseEvent = (e: MouseEvent<HTMLDivElement>) => {
+    console.log(e.pageX, e.clientX, window.innerWidth)
+    if (e.pageX < window.innerWidth * 0.5) {
+      this.previousPage();
+    } else {
+      this.nextPage();
+    }
+
   }
 
 
@@ -185,35 +219,52 @@ class Reader extends React.Component<any, State> {
           updateReaderSettings={this.updateReaderSettings}
           chapter={this.state.chapter}
           chapters={this.state.chapters}
+          nextChapter={this.nextChapter}
+          previousChapter={this.previousChapter}
           updateChapter={this.updateChapter}
           page={this.state.page}
           pages={this.state.pages}
+          nextPage={this.nextChapter}
+          previousPage={this.previousChapter}
           updatePage={this.updatePage}
         ></MangaControl>
 
-        <h1>Manga Reader Page</h1>
-        <div className="mangaimage-container">
-          {this.state.images.map((image, ind) => {
-            let ref;
-            if (this.state.page === ind) {
-              ref = this.myRef;
-            }
-            if (image == null) return;
-            return (
-              <InView
-                as="div"
-                key={ind}
-                threshold={0.5}
-                onChange={(inView, entry) => this.checkVisible(inView, ind)}
-                className={this.toClasses([this.state.readerSettings.imageSizing, this.state.readerSettings.readerMode])}
-              >
-                <img src={image} ref={ref} className="w-full h-full object-contain placeholder-transparent" />
-              </InView>
-            )
-          })}
-          {this.state.readerSettings.readerMode}
-          {this.state.readerSettings.imageSizing}
-          {this.state.readerSettings.colourTheme}
+        <div className="p-4">Manga Reader Page</div>
+        <div onMouseDown={this.handleMouseEvent} className="mangaimage-container">
+          {
+            this.state.readerSettings.readerMode === 'Long Strip' ?
+              (
+                this.state.images.map((image, ind) => {
+                  let ref;
+                  if (this.state.page === ind) {
+                    ref = this.myRef;
+                  }
+                  if (image == null) return;
+                  return (
+                    <InView
+                      as="div"
+                      key={ind}
+                      threshold={0.5}
+                      onChange={(inView, entry) => this.checkVisible(inView, ind)}
+                      className={this.toClasses([this.state.readerSettings.imageSizing, this.state.readerSettings.readerMode])}
+                    >
+                      <img src={image} ref={ref} className="w-full h-full object-contain placeholder-transparent" />
+                    </InView>
+                  )
+                })
+              ) :
+              (
+                <InView
+                  as="div"
+                  threshold={0.5}
+                  onChange={(inView, entry) => this.checkVisible(inView, this.state.page)}
+                  className={this.toClasses([this.state.readerSettings.imageSizing, this.state.readerSettings.readerMode])}
+                >
+                  <img src={this.state.images[this.state.page] || undefined} className="w-full h-full object-contain placeholder-transparent" />
+                </InView>
+              )
+
+          }
         </div>
       </div>
     )
