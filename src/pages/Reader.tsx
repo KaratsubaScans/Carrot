@@ -30,6 +30,32 @@ class Reader extends React.Component<any, State> {
 
   constructor(props: any) {
     super(props);
+    let readerSettings = {
+      readerMode: ReaderMode.longStrip,
+      imageSizing: ImageSizing.fitHeight,
+      colourTheme: ColourTheme.light,
+    }
+
+    const savedSettings = localStorage.getItem('carrotSettings');
+    if (savedSettings) {
+      try {
+        const parsedSettings = JSON.parse(savedSettings)
+        if (!parsedSettings.readerMode) {
+          parsedSettings.readerMode = ReaderMode.longStrip;
+        }
+        if (!parsedSettings.imageSizing) {
+          parsedSettings.imageSizing = ImageSizing.fitHeight;
+        }
+        if (!parsedSettings.colourTheme) {
+          parsedSettings.colourTheme = ColourTheme.light;
+        }
+
+        readerSettings = parsedSettings
+      }
+      catch (err) {
+        console.log('No settings found.')
+      }
+    }
 
     this.state = {
       zipped: [],
@@ -41,11 +67,7 @@ class Reader extends React.Component<any, State> {
       page: this.props.match.params.page - 1,
       pages: [],
       loaded: false,
-      readerSettings: {
-        readerMode: ReaderMode.longStrip,
-        imageSizing: ImageSizing.fitHeight,
-        colourTheme: ColourTheme.light,
-      },
+      readerSettings,
     };
 
     this.myRef = React.createRef();
@@ -135,6 +157,7 @@ class Reader extends React.Component<any, State> {
       ...curState,
       readerSettings: newReaderSettings
     }));
+    localStorage.setItem("carrotSettings", JSON.stringify(newReaderSettings))
   }
 
   updateChapter = (newChapter: number) => {

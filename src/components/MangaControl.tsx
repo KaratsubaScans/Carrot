@@ -143,11 +143,14 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
           </div>
           <div className="control-title">
             <input type="color" defaultValue="#ff0000" />
+            {/*
             <select className="subtitle dropdown w-full" onChange={changeColourTheme} value={readerSettings.colourTheme}>
               {Object.values(ColourTheme).map((item: string) =>
                 (<option className="subtitle" value={item} key={item}>{item}</option>)
               )}
             </select>
+            */
+            }
           </div>
 
         </div>
