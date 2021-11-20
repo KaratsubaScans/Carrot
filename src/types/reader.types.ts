@@ -7,7 +7,7 @@ export interface ReaderSettings {
 
 export enum ReaderMode {
   longStrip = "Long Strip",
-  scrolling = "Scrolling"
+  singlePage = "Single Page"
 }
 
 export enum ImageSizing {
