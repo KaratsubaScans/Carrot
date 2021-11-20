@@ -5,7 +5,7 @@ import { InView } from 'react-intersection-observer';
 
 import MangaControl from 'components/MangaControl';
 import 'pages/Reader.css';
-import { ReaderSettings, ReaderMode, ImageSizing, ColourTheme, Page, Chapter } from 'types/reader.types';
+import { ReaderSettings, ReaderMode, ImageSizing, ColourTheme, Page, Chapter, Menu } from 'types/reader.types';
 
 import { fetchZip, extractZip, ZipInfo } from 'services/archive.service';
 import { getPages, getChapters } from 'utils/requests';
@@ -34,6 +34,7 @@ class Reader extends React.Component<any, State> {
       readerMode: ReaderMode.longStrip,
       imageSizing: ImageSizing.fitHeight,
       colourTheme: ColourTheme.light,
+      menu: Menu.open,
     }
 
     const savedSettings = localStorage.getItem('carrotSettings');
@@ -49,7 +50,9 @@ class Reader extends React.Component<any, State> {
         if (!parsedSettings.colourTheme) {
           parsedSettings.colourTheme = ColourTheme.light;
         }
-
+        if (!parsedSettings.menu) {
+          parsedSettings.menu = Menu.open;
+        }
         readerSettings = parsedSettings
       }
       catch (err) {
