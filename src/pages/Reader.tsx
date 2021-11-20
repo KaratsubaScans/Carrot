@@ -5,7 +5,7 @@ import { InView } from 'react-intersection-observer';
 
 import MangaControl from 'components/MangaControl';
 import 'pages/Reader.css';
-import { ReaderSettings, ReaderMode, ImageSizing, ColourTheme, Page, Chapter } from 'types/reader.types';
+import { ReaderSettings, ReaderMode, ImageSizing, ColourTheme, Page, Chapter, Menu } from 'types/reader.types';
 
 import { fetchZip, extractZip, ZipInfo } from 'services/archive.service';
 import { getPages, getChapters } from 'utils/requests';
@@ -30,6 +30,34 @@ class Reader extends React.Component<any, State> {
 
   constructor(props: any) {
     super(props);
+    const readerSettings = {
+      readerMode: ReaderMode.longStrip,
+      imageSizing: ImageSizing.fitHeight,
+      colourTheme: ColourTheme.light,
+      menu: Menu.open,
+    }
+
+    const savedSettings = localStorage.getItem('carrotSettings');
+    if (savedSettings) {
+      try {
+        const parsedSettings = JSON.parse(savedSettings)
+        if (parsedSettings.readerMode) {
+          readerSettings.readerMode = parsedSettings.readerMode;
+        }
+        if (parsedSettings.imageSizing) {
+          readerSettings.imageSizing = parsedSettings.imageSizing;
+        }
+        if (parsedSettings.colourTheme) {
+          readerSettings.colourTheme = parsedSettings.colourTheme;
+        }
+        if (parsedSettings.menu) {
+          readerSettings.menu = parsedSettings.menu;
+        }
+      }
+      catch (err) {
+        console.log('No settings found.')
+      }
+    }
 
     this.state = {
       zipped: [],
@@ -41,11 +69,7 @@ class Reader extends React.Component<any, State> {
       page: this.props.match.params.page - 1,
       pages: [],
       loaded: false,
-      readerSettings: {
-        readerMode: ReaderMode.longStrip,
-        imageSizing: ImageSizing.fitHeight,
-        colourTheme: ColourTheme.light,
-      },
+      readerSettings,
     };
 
     this.myRef = React.createRef();
@@ -135,6 +159,7 @@ class Reader extends React.Component<any, State> {
       ...curState,
       readerSettings: newReaderSettings
     }));
+    localStorage.setItem("carrotSettings", JSON.stringify(newReaderSettings))
   }
 
   updateChapter = (newChapter: number) => {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { ReaderSettings, ReaderMode, ImageSizing, ColourTheme, Chapter, Page } from 'types/reader.types';
+import { ReaderSettings, ReaderMode, ImageSizing, ColourTheme, Menu, Chapter, Page } from 'types/reader.types';
 import 'components/MangaControl.css';
 import {
   TitleIcon,
@@ -35,9 +35,10 @@ type Props = {
 }
 
 const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
-  const [menu, setMenu] = useState(true)
   const { readerSettings, updateReaderSettings, chapter, chapters, updateChapter, page, pages, updatePage } = props;
-
+  const toggleMenuState = () => {
+    updateReaderSettings({ ...readerSettings, menu: readerSettings.menu === Menu.open ? Menu.close : Menu.open, });
+  };
   const changeReaderMode = (event: React.ChangeEvent<HTMLSelectElement>) => {
     updateReaderSettings({ ...readerSettings, readerMode: event.currentTarget.value as ReaderMode });
   };
@@ -59,10 +60,10 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
 
   return (
     <div className="menuWrapper no-scrollbar pr-12">
-      <div className={menu ? "menu" : "menu menu-closed"}>
+      <div className={readerSettings.menu === Menu.open ? "menu" : "menu menu-closed"}>
         <div className="absolute inset-y-0 right-0 flex justify-center items-center mr-2">
-          <button onClick={() => { setMenu(!menu) }} className="bg-gray-100 dark:bg-gray-700 p-2 shadow-lg rounded">
-            {menu ? <LeftArrowIcon /> : <RightArrowIcon />}
+          <button onClick={() => { toggleMenuState() }} className="bg-gray-100 dark:bg-gray-700 p-2 shadow-lg rounded">
+            {readerSettings.menu === Menu.open ? <LeftArrowIcon /> : <RightArrowIcon />}
           </button>
         </div>
         <div>
@@ -143,11 +144,14 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
           </div>
           <div className="control-title">
             <input type="color" defaultValue="#ff0000" />
+            {/*
             <select className="subtitle dropdown w-full" onChange={changeColourTheme} value={readerSettings.colourTheme}>
               {Object.values(ColourTheme).map((item: string) =>
                 (<option className="subtitle" value={item} key={item}>{item}</option>)
               )}
             </select>
+            */
+            }
           </div>
 
         </div>

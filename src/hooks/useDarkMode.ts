@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react'
-
-export default function useDarkMode(): [string, React.Dispatch<React.SetStateAction<string>>] {
-  const [theme, setTheme] = useState('light');
-  const colorTheme = theme === 'light' ? 'dark' : 'light'
+// React.Dispatch<React.SetStateAction<string>>
+export default function useDarkMode(): [string, (theme: string) => void] {
+  const [theme, setTheme] = useState(localStorage.getItem('carrotTheme') || 'light');
+  const colorTheme = (theme === 'light') ? 'dark' : 'light'
+  const themeSet = (theme: string) => {
+    setTheme(theme)
+    localStorage.setItem('carrotTheme', theme)
+  }
   useEffect(() => {
     const root = window.document.documentElement
     root.classList.remove(colorTheme);
     root.classList.add(theme)
   }, [theme, colorTheme])
-    return [colorTheme, setTheme]
+  return [colorTheme, themeSet]
 }
