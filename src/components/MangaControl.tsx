@@ -18,6 +18,9 @@ import {
   ChevronRightIcon,
 } from 'components/Icons'
 
+import Modal from './Modal';
+import HotKeys from './HotKeys';
+
 type Props = {
   mangaName: string,
   readerSettings: ReaderSettings,
@@ -55,6 +58,11 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
   const changePage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     updatePage(+event.currentTarget.value);
   };
+  const changeAutoLoadChapter = () => {
+    updateReaderSettings({ ...readerSettings, autoLoadChapter: !readerSettings.autoLoadChapter })
+  }
+
+  const [isOpenHotKeys, setIsOpenHotKeys] = useState(false);
 
 
 
@@ -156,16 +164,19 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
 
         </div>
         <div>
-          <button className="bg-gray-700 text-white rounded py-2 px-4">
+          <button onClick={() => setIsOpenHotKeys(true)} className="bg-gray-700 text-white rounded py-2 px-4 hover:bg-gray-800">
             HotKeys
           </button>
+          <Modal title={'HotKeys'} isOpen={isOpenHotKeys} setIsOpen={setIsOpenHotKeys}>
+            <HotKeys></HotKeys>
+          </Modal>
         </div>
         <div className="regular">
-          <input type="checkbox" id="autoLoad" />
-          <label htmlFor="autoLoad" className="px-2">Autoload next page</label>
+          <input type="checkbox" id="autoLoadChapter" checked={readerSettings.autoLoadChapter} onChange={() => changeAutoLoadChapter()} />
+          <label htmlFor="autoLoadChapter" className="px-2">Autoload next/previous chapters</label>
         </div>
         <div className="control-title">
-          <button>
+          <button >
             <ShareIcon />
           </button>
           <button>

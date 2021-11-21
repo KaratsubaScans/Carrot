@@ -18,13 +18,13 @@ const Layout = (props: layoutProps) => {
   const [colorTheme, setTheme] = useDarkMode()
 
   return (
-    <div className="layout-background">
+    <div>
       <div className="nav">
         <button onClick={() => history.push('/')}>
           <img src={Logo} alt="Logo" />
         </button>
         <h1 className="heading pl-4">Karatsuba Scan&apos;s Carrot Reader</h1>
-        <button className="absolute dark:text-white text-black p-2 m-2 right-0 inset-y-0" onClick={() => setTheme(colorTheme)}>
+        <button className="absolute dark:text-white text-black p-2 m-2 right-4 inset-y-0" onClick={() => setTheme(colorTheme)}>
           {colorTheme === ColourTheme.light ? (<MoonIcon />) : (<SunIcon />)}
         </button>
 

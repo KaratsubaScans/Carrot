@@ -4,6 +4,7 @@ export interface ReaderSettings {
   imageSizing: ImageSizing,
   colourTheme: ColourTheme,
   menu: Menu,
+  autoLoadChapter: AutoLoadChapter,
 }
 
 export enum ReaderMode {
@@ -25,6 +26,9 @@ export enum Menu {
   open = "open",
   close = "close"
 }
+
+export type AutoLoadChapter = boolean;
+
 export type Page = {
   name: string
 };

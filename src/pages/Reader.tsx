@@ -38,6 +38,7 @@ class Reader extends React.Component<any, State> {
       imageSizing: ImageSizing.fitHeight,
       colourTheme: ColourTheme.light,
       menu: Menu.open,
+      autoLoadChapter: true,
     }
 
     const savedSettings = localStorage.getItem('carrotSettings');
@@ -56,6 +57,10 @@ class Reader extends React.Component<any, State> {
         if (parsedSettings.menu) {
           readerSettings.menu = parsedSettings.menu;
         }
+        if (parsedSettings.autoLoadChapter) {
+          readerSettings.autoLoadChapter = parsedSettings.autoLoadChapter;
+        }
+
       }
       catch (err) {
         console.log('No settings found.')
@@ -153,8 +158,13 @@ class Reader extends React.Component<any, State> {
     localStorage.setItem("carrotSettings", JSON.stringify(newReaderSettings))
   }
 
-  updateChapter = (newChapter: number) => {
-    this.props.history.push(`/read/${this.state.mangafile}/${newChapter + 1}/${1}`);
+  updateChapter = async (newChapter: number, previousPage = false) => {
+    let newPage = 1;
+    if (previousPage) {
+      const previousPages = await getPages(this.state.mangafile, this.state.chapters[this.state.chapter - 1].name)
+      newPage = previousPages.length
+    }
+    this.props.history.push(`/read/${this.state.mangafile}/${newChapter + 1}/${newPage}`);
     this.props.history.go(0);
 
   }
@@ -173,19 +183,25 @@ class Reader extends React.Component<any, State> {
       this.updateChapter(this.state.chapter + 1)
     }
   };
-  previousChapter = () => {
+  previousChapter = (previousPage = false) => {
     if (this.state.chapter - 1 >= 0) {
-      this.updateChapter(this.state.chapter - 1)
+      this.updateChapter(this.state.chapter - 1, previousPage)
     }
   };
   nextPage = () => {
     if (this.state.page + 1 < this.state.pages.length) {
       this.updatePage(this.state.page + 1)
     }
+    else if (this.state.readerSettings.autoLoadChapter) {
+      this.nextChapter();
+    }
   };
   previousPage = () => {
     if (this.state.page - 1 >= 0) {
       this.updatePage(this.state.page - 1)
+    }
+    else if (this.state.readerSettings.autoLoadChapter) {
+      this.previousChapter(true);
     }
   };
 
@@ -208,7 +224,6 @@ class Reader extends React.Component<any, State> {
   }
 
   handleMouseEvent = (e: MouseEvent<HTMLDivElement>) => {
-    console.log(this.state.imageFiles)
     if (e.pageX < window.innerWidth * 0.5) {
       this.previousPage();
     } else {
