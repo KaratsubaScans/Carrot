@@ -7,10 +7,6 @@ export interface ReaderSettings {
   autoLoadChapter: boolean,
 }
 
-export type PartialReaderSettings<ReaderSettings> = {
-  [K in keyof ReaderSettings]: ReaderSettings[K] | undefined
-}
-
 export enum ReaderMode {
   longStrip = "Long Strip",
   singlePage = "Single Page"
@@ -38,8 +34,4 @@ export interface KeyBindings {
   nextPage: string,
   previousChapter: string,
   nextChapter: string
-}
-
-export type PartialKeyBindings<KeyBindings> = {
-  [K in keyof KeyBindings]: KeyBindings[K] | undefined
 }
