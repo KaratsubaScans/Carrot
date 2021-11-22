@@ -7,7 +7,7 @@ import Loader from 'components/Loader'
 import MangaControl from 'components/MangaControl';
 import 'pages/Reader.css';
 
-import { ReaderSettings, KeyBindings, ReaderMode, ImageSizing, ColourTheme, Page, Chapter, Menu } from 'types/reader.types';
+import { ReaderSettings, KeyBindings, ReaderMode, ImageSizing, ColourTheme, Page, Chapter } from 'types/reader.types';
 
 import { fetchZip, extractZip, ZipInfo } from 'services/archive.service';
 import { getPages, getChapters, getImage } from 'utils/requests';
@@ -34,60 +34,36 @@ class Reader extends React.Component<any, State> {
 
   constructor(props: any) {
     super(props);
-    const readerSettings = {
+    let readerSettings = {
       readerMode: ReaderMode.longStrip,
       imageSizing: ImageSizing.fitHeight,
       colourTheme: ColourTheme.light,
-      menu: Menu.open,
+      menuOpen: true,
       autoLoadChapter: true,
     }
 
     const savedSettings = localStorage.getItem('carrotSettings');
     if (savedSettings) {
       try {
-        const parsedSettings = JSON.parse(savedSettings)
-        if (parsedSettings.readerMode) {
-          readerSettings.readerMode = parsedSettings.readerMode;
-        }
-        if (parsedSettings.imageSizing) {
-          readerSettings.imageSizing = parsedSettings.imageSizing;
-        }
-        if (parsedSettings.colourTheme) {
-          readerSettings.colourTheme = parsedSettings.colourTheme;
-        }
-        if (parsedSettings.menu) {
-          readerSettings.menu = parsedSettings.menu;
-        }
-        if (parsedSettings.autoLoadChapter) {
-          readerSettings.autoLoadChapter = parsedSettings.autoLoadChapter;
-        }
+        const parsedSettings: Partial<ReaderSettings> = JSON.parse(savedSettings)
+        readerSettings = { ...readerSettings, ...parsedSettings }
       }
       catch (err) {
         console.log('No settings found.')
       }
     }
-    const keyBindings = {
-      previousPage: "K",
-      nextPage: "J",
-      previousChapter: "H",
-      nextChapter: "L",
+
+    let keyBindings = {
+      previousPage: "k",
+      nextPage: "j",
+      previousChapter: "h",
+      nextChapter: "l",
     }
     const keyBindingsLocal = localStorage.getItem('carrotKeyBindings')
     if (keyBindingsLocal) {
       try {
-        const keyBindingsParsed = JSON.parse(keyBindingsLocal);
-        if (keyBindingsParsed.previousPage) {
-          keyBindings.previousPage = keyBindingsParsed.previousPage
-        }
-        if (keyBindingsParsed.previousPage) {
-          keyBindings.previousPage = keyBindingsParsed.previousPage
-        }
-        if (keyBindingsParsed.previousPage) {
-          keyBindings.previousPage = keyBindingsParsed.previousPage
-        }
-        if (keyBindingsParsed.previousPage) {
-          keyBindings.previousPage = keyBindingsParsed.previousPage
-        }
+        const keyBindingsParsed: Partial<KeyBindings> = JSON.parse(keyBindingsLocal);
+        keyBindings = { ...keyBindings, ...keyBindingsParsed }
       } catch (err) {
         console.log('Key Binding settings not found.')
       }
@@ -177,10 +153,10 @@ class Reader extends React.Component<any, State> {
     }
   }
 
-  updateReaderSettings = (newReaderSettings: ReaderSettings) => {
+  updateReaderSettings = (newReaderSettings: Partial<ReaderSettings>) => {
     this.setState(curState => ({
       ...curState,
-      readerSettings: newReaderSettings
+      readerSettings: { ...this.state.readerSettings, ...newReaderSettings }
     }));
     localStorage.setItem("carrotSettings", JSON.stringify(newReaderSettings))
   }

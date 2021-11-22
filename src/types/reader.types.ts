@@ -3,8 +3,12 @@ export interface ReaderSettings {
   readerMode: ReaderMode,
   imageSizing: ImageSizing,
   colourTheme: ColourTheme,
-  menu: Menu,
-  autoLoadChapter: AutoLoadChapter,
+  menuOpen: boolean,
+  autoLoadChapter: boolean,
+}
+
+export type PartialReaderSettings<ReaderSettings> = {
+  [K in keyof ReaderSettings]: ReaderSettings[K] | undefined
 }
 
 export enum ReaderMode {
@@ -22,13 +26,6 @@ export enum ColourTheme {
   dark = "dark"
 }
 
-export enum Menu {
-  open = "open",
-  close = "close"
-}
-
-export type AutoLoadChapter = boolean;
-
 export type Page = {
   name: string
 };
@@ -41,4 +38,8 @@ export interface KeyBindings {
   nextPage: string,
   previousChapter: string,
   nextChapter: string
+}
+
+export type PartialKeyBindings<KeyBindings> = {
+  [K in keyof KeyBindings]: KeyBindings[K] | undefined
 }

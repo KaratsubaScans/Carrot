@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { ReaderSettings, ReaderMode, KeyBindings, ImageSizing, ColourTheme, Menu, Chapter, Page } from 'types/reader.types';
+import { ReaderSettings, ReaderMode, KeyBindings, ImageSizing, ColourTheme, Chapter, Page } from 'types/reader.types';
 import 'components/MangaControl.css';
 import {
   TitleIcon,
@@ -25,7 +25,7 @@ import Share from './Share';
 type Props = {
   mangaName: string,
   readerSettings: ReaderSettings,
-  updateReaderSettings: (newReaderSettings: ReaderSettings) => void,
+  updateReaderSettings: (newReaderSettings: Partial<ReaderSettings>) => void,
   keyBindings: KeyBindings,
   setKeyBindings: (newKeyBindings: KeyBindings) => void,
   chapters: Chapter[],
@@ -43,17 +43,21 @@ type Props = {
 const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
   const { readerSettings, updateReaderSettings, keyBindings, setKeyBindings, chapter, chapters, updateChapter, page, pages, updatePage } = props;
   const toggleMenuState = () => {
-    updateReaderSettings({ ...readerSettings, menu: readerSettings.menu === Menu.open ? Menu.close : Menu.open, });
+    updateReaderSettings({ menuOpen: !readerSettings.menuOpen, });
   };
   const changeReaderMode = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    updateReaderSettings({ ...readerSettings, readerMode: event.currentTarget.value as ReaderMode });
+    updateReaderSettings({ readerMode: event.currentTarget.value as ReaderMode });
   };
   const changeImageSizing = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    updateReaderSettings({ ...readerSettings, imageSizing: event.currentTarget.value as ImageSizing });
+    updateReaderSettings({ imageSizing: event.currentTarget.value as ImageSizing });
   };
   const changeColourTheme = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    updateReaderSettings({ ...readerSettings, colourTheme: event.currentTarget.value as ColourTheme });
+    updateReaderSettings({ colourTheme: event.currentTarget.value as ColourTheme });
   };
+  const toggleAutoLoadChapter = () => {
+    updateReaderSettings({ autoLoadChapter: !readerSettings.autoLoadChapter })
+  }
+
   const changeChapter = (event: React.ChangeEvent<HTMLSelectElement>) => {
     console.log(event.currentTarget.value);
     updateChapter(+event.currentTarget.value);
@@ -61,9 +65,6 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
   const changePage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     updatePage(+event.currentTarget.value);
   };
-  const changeAutoLoadChapter = () => {
-    updateReaderSettings({ ...readerSettings, autoLoadChapter: !readerSettings.autoLoadChapter })
-  }
 
   const [isOpenHotKeys, setIsOpenHotKeys] = useState(false);
 
@@ -71,10 +72,10 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
 
   return (
     <div className="menuWrapper no-scrollbar pr-12">
-      <div className={readerSettings.menu === Menu.open ? "menu" : "menu menu-closed"}>
+      <div className={readerSettings.menuOpen ? "menu" : "menu menu-closed"}>
         <div className="absolute inset-y-0 right-0 flex justify-center items-center mr-2">
           <button onClick={() => { toggleMenuState() }} className="bg-gray-100 dark:bg-gray-700 p-2 shadow-lg rounded">
-            {readerSettings.menu === Menu.open ? <LeftArrowIcon /> : <RightArrowIcon />}
+            {readerSettings.menuOpen ? <LeftArrowIcon /> : <RightArrowIcon />}
           </button>
         </div>
         <div>
@@ -175,7 +176,7 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
           </Modal>
         </div>
         <div className="regular">
-          <input type="checkbox" id="autoLoadChapter" checked={readerSettings.autoLoadChapter} onChange={() => changeAutoLoadChapter()} />
+          <input type="checkbox" id="autoLoadChapter" checked={readerSettings.autoLoadChapter} onChange={() => toggleAutoLoadChapter()} />
           <label htmlFor="autoLoadChapter" className="px-2">Autoload next/previous chapters</label>
         </div>
         <div className="control-title">
