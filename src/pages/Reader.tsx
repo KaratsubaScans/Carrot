@@ -241,7 +241,7 @@ class Reader extends React.Component<any, State> {
   }
 
   handleHotKeys = (event: KeyboardEvent) => {
-    const key = event.key.toUpperCase();
+    const key = event.key;
     if (key === this.state.keyBindings.previousPage) {
       this.previousPage()
     }
