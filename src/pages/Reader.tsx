@@ -154,11 +154,12 @@ class Reader extends React.Component<any, State> {
   }
 
   updateReaderSettings = (newReaderSettings: Partial<ReaderSettings>) => {
+    const readerSettings = { ...this.state.readerSettings, ...newReaderSettings }
     this.setState(curState => ({
       ...curState,
-      readerSettings: { ...this.state.readerSettings, ...newReaderSettings }
+      readerSettings,
     }));
-    localStorage.setItem("carrotSettings", JSON.stringify(newReaderSettings))
+    localStorage.setItem("carrotSettings", JSON.stringify(readerSettings))
   }
 
   updateChapter = async (newChapter: number, previousPage = false) => {
@@ -208,15 +209,11 @@ class Reader extends React.Component<any, State> {
     }
   };
 
-
-
-
   checkVisible = (inView: boolean, ind: number) => {
     if (inView) {
       this.updatePage(ind, true)
     }
   }
-
 
   toClasses = (options: string[]) => {
     let classes = '';
@@ -234,12 +231,13 @@ class Reader extends React.Component<any, State> {
     }
   }
 
-  setKeyBindings = (newKeyBindings: KeyBindings) => {
+  setKeyBindings = (newKeyBindings: Partial<KeyBindings>) => {
+    const keyBindings = { ...this.state.keyBindings, ...newKeyBindings }
     this.setState(curState => ({
       ...curState,
-      keyBindings: newKeyBindings
+      keyBindings
     }));
-    localStorage.setItem("carrotKeyBindings", JSON.stringify(newKeyBindings))
+    localStorage.setItem("carrotKeyBindings", JSON.stringify(keyBindings))
   }
 
   handleHotKeys = (event: KeyboardEvent) => {
