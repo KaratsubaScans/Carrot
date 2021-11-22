@@ -4,6 +4,6 @@
 
 .loader-container {
   @apply animate-pulse;
-  width: 90vw;
-  height: 90vh;
+  width: 70vw;
+  height: 70vh;
 }
