@@ -20,6 +20,7 @@ import {
 
 import Modal from './Modal';
 import HotKeys from './HotKeys';
+import Share from './Share';
 
 type Props = {
   mangaName: string,
@@ -64,7 +65,7 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
 
   const [isOpenHotKeys, setIsOpenHotKeys] = useState(false);
 
-
+  const [isOpenShare, setIsOpenShare] = useState(false);
 
   return (
     <div className="menuWrapper no-scrollbar pr-12">
@@ -167,7 +168,7 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
           <button onClick={() => setIsOpenHotKeys(true)} className="bg-gray-700 text-white rounded py-2 px-4 hover:bg-gray-800">
             HotKeys
           </button>
-          <Modal title={'HotKeys'} isOpen={isOpenHotKeys} setIsOpen={setIsOpenHotKeys}>
+          <Modal title={'HotKeys'} isOpen={isOpenHotKeys} setIsOpen={setIsOpenHotKeys} buttonMsg="Close">
             <HotKeys></HotKeys>
           </Modal>
         </div>
@@ -176,9 +177,12 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
           <label htmlFor="autoLoadChapter" className="px-2">Autoload next/previous chapters</label>
         </div>
         <div className="control-title">
-          <button >
+          <button onClick={() => setIsOpenShare(true)}>
             <ShareIcon />
           </button>
+          <Modal title={'Share'} isOpen={isOpenShare} setIsOpen={setIsOpenShare} buttonMsg="Close">
+            <Share></Share>
+          </Modal>
           <button>
             <RssIcon />
           </button>

@@ -5,11 +5,12 @@ type Props = {
   title: string,
   isOpen: boolean,
   setIsOpen: (open: boolean) => void,
-  children: JSX.Element
+  children: JSX.Element,
+  buttonMsg: string
 }
 
 const Modal: React.FunctionComponent<Props> = (props: Props) => {
-  const { title, children, isOpen, setIsOpen } = props;
+  const { title, children, isOpen, setIsOpen, buttonMsg } = props;
   console.log('helo')
 
   return (
@@ -35,10 +36,10 @@ const Modal: React.FunctionComponent<Props> = (props: Props) => {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+            <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white dark:bg-gray-700 shadow-xl rounded-2xl">
               <Dialog.Title
                 as="h3"
-                className="text-lg font-medium leading-6 text-gray-900"
+                className="text-lg font-medium leading-6 text-gray-900 dark:text-white"
               >
                 {title}
               </Dialog.Title>
@@ -52,7 +53,7 @@ const Modal: React.FunctionComponent<Props> = (props: Props) => {
                   className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                   onClick={() => setIsOpen(false)}
                 >
-                  Got it, thanks!
+                  {buttonMsg}
                 </button>
               </div>
             </div>
