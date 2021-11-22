@@ -35,3 +35,10 @@ export type Page = {
 export type Chapter = {
   name: string
 };
+
+export interface KeyBindings {
+  previousPage: string,
+  nextPage: string,
+  previousChapter: string,
+  nextChapter: string
+}

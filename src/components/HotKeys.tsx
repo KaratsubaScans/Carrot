@@ -1,34 +1,13 @@
 import React, { useState } from 'react';
+import { KeyBindings } from 'types/reader.types'
 
-const HotKeys: React.FunctionComponent = () => {
+type Props = {
+  settings: KeyBindings,
+  setSettings: (newSettings: KeyBindings) => void
+}
 
-  const keyBindings = {
-    previousPage: "J",
-    nextPage: "K",
-    previousChapter: "H",
-    nextChapter: "L",
-  }
-  const keyBindingsLocal = localStorage.getItem('carrotKeyBindings')
-  if (keyBindingsLocal) {
-    try {
-      const keyBindingsParsed = JSON.parse(keyBindingsLocal);
-      if (keyBindingsParsed.previousPage) {
-        keyBindings.previousPage = keyBindingsParsed.previousPage
-      }
-      if (keyBindingsParsed.previousPage) {
-        keyBindings.previousPage = keyBindingsParsed.previousPage
-      }
-      if (keyBindingsParsed.previousPage) {
-        keyBindings.previousPage = keyBindingsParsed.previousPage
-      }
-      if (keyBindingsParsed.previousPage) {
-        keyBindings.previousPage = keyBindingsParsed.previousPage
-      }
-    } catch (err) {
-      console.log('Key Binding settings not found.')
-    }
-  }
-  const [settings, setSettings] = useState(keyBindings);
+const HotKeys: React.FunctionComponent<Props> = (props: Props) => {
+  const { settings } = props;
 
   return (
     <div>

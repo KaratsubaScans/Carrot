@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { ReaderSettings, ReaderMode, ImageSizing, ColourTheme, Menu, Chapter, Page } from 'types/reader.types';
+import { ReaderSettings, ReaderMode, KeyBindings, ImageSizing, ColourTheme, Menu, Chapter, Page } from 'types/reader.types';
 import 'components/MangaControl.css';
 import {
   TitleIcon,
@@ -26,6 +26,8 @@ type Props = {
   mangaName: string,
   readerSettings: ReaderSettings,
   updateReaderSettings: (newReaderSettings: ReaderSettings) => void,
+  keyBindings: KeyBindings,
+  setKeyBindings: (newKeyBindings: KeyBindings) => void,
   chapters: Chapter[],
   chapter: number,
   nextChapter: () => void,
@@ -39,7 +41,7 @@ type Props = {
 }
 
 const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
-  const { readerSettings, updateReaderSettings, chapter, chapters, updateChapter, page, pages, updatePage } = props;
+  const { readerSettings, updateReaderSettings, keyBindings, setKeyBindings, chapter, chapters, updateChapter, page, pages, updatePage } = props;
   const toggleMenuState = () => {
     updateReaderSettings({ ...readerSettings, menu: readerSettings.menu === Menu.open ? Menu.close : Menu.open, });
   };
@@ -169,7 +171,7 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
             HotKeys
           </button>
           <Modal title={'HotKeys'} isOpen={isOpenHotKeys} setIsOpen={setIsOpenHotKeys} buttonMsg="Close">
-            <HotKeys></HotKeys>
+            <HotKeys settings={keyBindings} setSettings={setKeyBindings} />
           </Modal>
         </div>
         <div className="regular">

@@ -7,7 +7,7 @@ import Loader from 'components/Loader'
 import MangaControl from 'components/MangaControl';
 import 'pages/Reader.css';
 
-import { ReaderSettings, ReaderMode, ImageSizing, ColourTheme, Page, Chapter, Menu } from 'types/reader.types';
+import { ReaderSettings, KeyBindings, ReaderMode, ImageSizing, ColourTheme, Page, Chapter, Menu } from 'types/reader.types';
 
 import { fetchZip, extractZip, ZipInfo } from 'services/archive.service';
 import { getPages, getChapters, getImage } from 'utils/requests';
@@ -26,6 +26,7 @@ interface State {
   pages: Page[],
   loaded: boolean,
   readerSettings: ReaderSettings,
+  keyBindings: KeyBindings,
 }
 
 class Reader extends React.Component<any, State> {
@@ -60,10 +61,35 @@ class Reader extends React.Component<any, State> {
         if (parsedSettings.autoLoadChapter) {
           readerSettings.autoLoadChapter = parsedSettings.autoLoadChapter;
         }
-
       }
       catch (err) {
         console.log('No settings found.')
+      }
+    }
+    const keyBindings = {
+      previousPage: "K",
+      nextPage: "J",
+      previousChapter: "H",
+      nextChapter: "L",
+    }
+    const keyBindingsLocal = localStorage.getItem('carrotKeyBindings')
+    if (keyBindingsLocal) {
+      try {
+        const keyBindingsParsed = JSON.parse(keyBindingsLocal);
+        if (keyBindingsParsed.previousPage) {
+          keyBindings.previousPage = keyBindingsParsed.previousPage
+        }
+        if (keyBindingsParsed.previousPage) {
+          keyBindings.previousPage = keyBindingsParsed.previousPage
+        }
+        if (keyBindingsParsed.previousPage) {
+          keyBindings.previousPage = keyBindingsParsed.previousPage
+        }
+        if (keyBindingsParsed.previousPage) {
+          keyBindings.previousPage = keyBindingsParsed.previousPage
+        }
+      } catch (err) {
+        console.log('Key Binding settings not found.')
       }
     }
 
@@ -79,6 +105,7 @@ class Reader extends React.Component<any, State> {
       pages: [],
       loaded: false,
       readerSettings,
+      keyBindings,
     };
 
     this.myRef = React.createRef();
@@ -229,6 +256,30 @@ class Reader extends React.Component<any, State> {
     } else {
       this.nextPage();
     }
+  }
+
+  setKeyBindings = (newKeyBindings: KeyBindings) => {
+    this.setState(curState => ({
+      ...curState,
+      keyBindings: newKeyBindings
+    }));
+    localStorage.setItem("carrotKeyBindings", JSON.stringify(newKeyBindings))
+  }
+
+  handleHotKeys = (event: KeyboardEvent) => {
+    const key = event.key.toUpperCase();
+    if (key === this.state.keyBindings.previousPage) {
+      this.previousPage()
+    }
+    if (key === this.state.keyBindings.nextPage) {
+      this.nextPage()
+    }
+    if (key === this.state.keyBindings.previousChapter) {
+      this.previousChapter()
+    }
+    if (key === this.state.keyBindings.nextChapter) {
+      this.nextChapter()
+    }
 
   }
 
@@ -236,6 +287,11 @@ class Reader extends React.Component<any, State> {
   async componentDidMount() {
     await this.queryManga();
     await this.loadPage();
+    document.addEventListener("keydown", this.handleHotKeys, false)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleHotKeys, false)
   }
 
   render() {
@@ -248,6 +304,8 @@ class Reader extends React.Component<any, State> {
           mangaName={this.mangaName()}
           readerSettings={this.state.readerSettings}
           updateReaderSettings={this.updateReaderSettings}
+          keyBindings={this.state.keyBindings}
+          setKeyBindings={this.setKeyBindings}
           chapter={this.state.chapter}
           chapters={this.state.chapters}
           nextChapter={this.nextChapter}
