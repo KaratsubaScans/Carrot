@@ -11,7 +11,6 @@ type Props = {
 
 const Modal: React.FunctionComponent<Props> = (props: Props) => {
   const { title, children, isOpen, setIsOpen, buttonMsg } = props;
-  console.log('helo')
 
   return (
     <Transition appear show={isOpen} as={Fragment}>

@@ -158,7 +158,11 @@ class Reader extends React.Component<any, State> {
     this.setState(curState => ({
       ...curState,
       readerSettings,
-    }));
+    }), () => {
+      if (newReaderSettings.readerMode === ReaderMode.longStrip) {
+        this.myRef.current?.scrollIntoView()
+      }
+    });
     localStorage.setItem("carrotSettings", JSON.stringify(readerSettings))
   }
 
@@ -215,10 +219,13 @@ class Reader extends React.Component<any, State> {
     }
   }
 
-  toClasses = (options: string[]) => {
+  toClasses = (options: string[], index: number) => {
     let classes = '';
     for (let i = 0; i < options.length; i += 1) {
       classes += options[i].split(' ').join('') + ' ';
+    }
+    if (this.state.readerSettings.readerMode === ReaderMode.singlePage && index !== this.state.page) {
+      classes += 'hidden'
     }
     return classes;
   }
@@ -295,48 +302,29 @@ class Reader extends React.Component<any, State> {
         <div className="p-4">Manga Reader Page</div>
         <div onMouseDown={this.handleMouseEvent} className="mangaimage-container">
           {
-            this.state.readerSettings.readerMode === 'Long Strip' ?
-              (
-                this.state.pages.map((page, ind) => {
-                  let ref;
-                  if (this.state.page === ind) {
-                    ref = this.myRef;
-                  }
-                  return (
-                    <InView
-                      as="div"
-                      key={ind}
-                      threshold={0.3}
-                      onChange={(inView, entry) => this.checkVisible(inView, ind)}
-                      className={this.toClasses([this.state.readerSettings.imageSizing, this.state.readerSettings.readerMode])}
-                    >
-                      {
-                        (this.state.imageFiles[ind] !== "") ? <img src={this.state.imageFiles[ind]} ref={ref} className="w-full h-full object-contain" />
-                          :
-                          <Loader refImg={ref} />
-                      }
-
-                    </InView>
-                  )
-                })
-              ) :
-              (
+            this.state.pages.map((page, ind) => {
+              let ref;
+              if (this.state.page === ind) {
+                ref = this.myRef;
+              }
+              return (
                 <InView
                   as="div"
-                  threshold={0.5}
-                  onChange={(inView, entry) => this.checkVisible(inView, this.state.page)}
-                  className={this.toClasses([this.state.readerSettings.imageSizing, this.state.readerSettings.readerMode])}
+                  key={ind}
+                  threshold={0.3}
+                  onChange={(inView, entry) => this.checkVisible(inView, ind)}
+                  className={this.toClasses([this.state.readerSettings.imageSizing, this.state.readerSettings.readerMode], ind)}
                 >
                   {
-
-                    (this.state.imageFiles[this.state.page] !== '') ?
-                      <img src={this.state.imageFiles[this.state.page]} className="w-full h-full object-contain" />
+                    (this.state.imageFiles[ind] !== "") ?
+                      <img src={this.state.imageFiles[ind]} ref={ref} className="w-full h-full object-contain" />
                       :
-                      <Loader refImg={this.myRef} />
+                      <Loader refImg={ref} />
                   }
+
                 </InView>
               )
-
+            })
           }
         </div>
       </div>
