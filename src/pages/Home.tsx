@@ -18,6 +18,7 @@ export default class Home extends React.Component {
         <div className="flex flex-col w-44">
           <Link className="header" to="/read/girls_last_tour/1/1">Girl&#39;s Last Tour</Link>
           <Link className="header" to="/read/mob_psycho/1/1">Mob Psycho</Link>
+          <Link className="header" to="/read/solo%20leveling/1/1">Solo Leveling</Link>
           <Loader />
         </div>
       </div>

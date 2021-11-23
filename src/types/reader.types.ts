@@ -13,6 +13,7 @@ export enum ReaderMode {
 }
 
 export enum ImageSizing {
+  original = "Original",
   fitWidth = "Fit Width",
   fitHeight = "Fit Height"
 }
