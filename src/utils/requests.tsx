@@ -41,3 +41,8 @@ export const getImage = async (url: string): Promise<string> => {
   return b64;
 
 };
+
+export const getMetaData = (mangafile: string): string => {
+  return 'hello'
+
+}
