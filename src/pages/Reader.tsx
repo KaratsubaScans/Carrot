@@ -159,7 +159,7 @@ class Reader extends React.Component<any, State> {
       ...curState,
       readerSettings,
     }), () => {
-      if (newReaderSettings.readerMode === 'Long Strip') {
+      if (newReaderSettings.readerMode === ReaderMode.longStrip) {
         this.myRef.current?.scrollIntoView()
       }
     });
@@ -224,7 +224,7 @@ class Reader extends React.Component<any, State> {
     for (let i = 0; i < options.length; i += 1) {
       classes += options[i].split(' ').join('') + ' ';
     }
-    if (this.state.readerSettings.readerMode === 'Single Page' && index !== this.state.page) {
+    if (this.state.readerSettings.readerMode === ReaderMode.singlePage && index !== this.state.page) {
       classes += 'hidden'
     }
     return classes;
