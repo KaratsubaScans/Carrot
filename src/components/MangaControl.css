@@ -15,7 +15,7 @@
 }
 
 .dropdown {
-  @apply p-2 text-black border rounded-md border-black dark:bg-gray-800 dark:border-white;
+  @apply p-2 text-primaryColour bg-panelBackgroundColour border rounded-md border-primaryColour;
 }
 
 .menuWrapper {

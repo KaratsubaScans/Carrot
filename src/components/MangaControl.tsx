@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { ReaderSettings, ReaderMode, KeyBindings, ImageSizing, Chapter, Page } from 'types/reader.types';
 import useDarkMode from 'hooks/useDarkMode'
+import colourThemes from 'assets/themes.json'
 import 'components/MangaControl.css';
 import {
   TitleIcon,
@@ -45,29 +46,7 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
   const { readerSettings, updateReaderSettings, keyBindings, setKeyBindings, chapter, chapters, updateChapter, page, pages, updatePage } = props;
 
   const [colourMode, setColourMode] = useDarkMode();
-  const colourThemeValues = [
-    "light",
-    "dark",
-    "olivia",
-    "mizu",
-    "oblivion_hagoromo",
-    "modo_light",
-    "oblivion",
-    "botanical",
-    "patisserie",
-    "serika",
-    "sumi",
-    "shoko",
-    "tuzi",
-    "bingsu",
-    "muted_sleeves",
-    "minimal_sleeves",
-    "nimbus",
-    "yuru",
-    "cafe",
-    "metaverse",
-    "november_fog"
-  ]
+  const colourThemeValues = Object.keys(colourThemes)
   const toggleMenuState = () => {
     updateReaderSettings({ menuOpen: !readerSettings.menuOpen, });
   };
@@ -190,7 +169,7 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
 
         </div>
         <div>
-          <button onClick={() => setIsOpenHotKeys(true)} className="bg-secondaryColour text-backgroundColour rounded py-2 px-4 hover:bg-gray-800">
+          <button onClick={() => setIsOpenHotKeys(true)} className="bg-backgroundColour text-secondaryColour rounded py-2 px-4 hover:bg-primaryColour hover:text-panelBackgroundColour">
             HotKeys
           </button>
           <Modal title={'HotKeys'} isOpen={isOpenHotKeys} setIsOpen={setIsOpenHotKeys} buttonMsg="Close">

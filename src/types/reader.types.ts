@@ -31,3 +31,8 @@ export interface KeyBindings {
   previousChapter: string,
   nextChapter: string
 }
+
+export enum StorageKey {
+  carrotSettings = "carrotSettings",
+  carrotTheme = "carrotTheme"
+}

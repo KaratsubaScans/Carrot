@@ -1,15 +1,15 @@
 {
-  "light": {
+  "Light": {
     "panelBackground": "#F3F4F6",
     "primaryText": "#374151",
-    "background": "#000",
+    "background": "#FFF",
     "secondaryText": "#374151",
     "link1": "#eebeb0",
     "link2": "#eebeb0",
     "link3": "#eebeb0",
     "link4": "#eebeb0"
   },
-  "dark": {
+  "Dark": {
     "panelBackground": "#1e293b",
     "primaryText": "#FFF",
     "background": "#0f172a",
@@ -19,7 +19,7 @@
     "link3": "#eebeb0",
     "link4": "#eebeb0"
   },
-  "olivia": {
+  "Olivia": {
     "panelBackground": "#2b2b2b",
     "primaryText": "#eebeb0",
     "background": "#f1ede9",
@@ -29,7 +29,7 @@
     "link3": "#eebeb0",
     "link4": "#eebeb0"
   },
-  "mizu": {
+  "Mizu": {
     "panelBackground": "#253646",
     "primaryText": "#f9f6f3",
     "background": "#b6d9eb",
@@ -39,7 +39,7 @@
     "link3": "#f9f6f3",
     "link4": "#f9f6f3"
   },
-  "oblivion_hagoromo": {
+  "Oblivion Hagoromo": {
     "panelBackground": "#464647",
     "primaryText": "#e3dcd0",
     "background": "#e3dcd0",
@@ -49,7 +49,7 @@
     "link3": "#ad98c7",
     "link4": "#fe4321"
   },
-  "modo_light": {
+  "Modo Light": {
     "panelBackground": "#737576",
     "primaryText": "#56585a",
     "background": "#d1d1cf",
@@ -59,7 +59,7 @@
     "link3": "#a0c6bc",
     "link4": "#a0c6bc"
   },
-  "oblivion": {
+  "Oblivion": {
     "panelBackground": "#464647",
     "primaryText": "#e3dcd0",
     "background": "#636b6b",
@@ -69,7 +69,7 @@
     "link3": "#ad98c7",
     "link4": "#fe4321"
   },
-  "botanical": {
+  "Botanical": {
     "panelBackground": "#3E5D58",
     "primaryText": "#92ACA0",
     "background": "#DDE5ED",
@@ -79,7 +79,7 @@
     "link3": "#92ACA0",
     "link4": "#92ACA0"
   },
-  "patisserie": {
+  "Patisserie": {
     "panelBackground": "#f6dfd8",
     "primaryText": "#da7157",
     "background": "#f7f2ea",
@@ -89,7 +89,7 @@
     "link3": "#da7157",
     "link4": "#da7157"
   },
-  "serika": {
+  "Serika": {
     "panelBackground": "#FFCD00",
     "primaryText": "#171718",
     "background": "#ece4d0",
@@ -99,7 +99,7 @@
     "link3": "#171718",
     "link4": "#171718"
   },
-  "sumi": {
+  "Sumi": {
     "panelBackground": "#f7f2ea",
     "primaryText": "#191e28",
     "background": "#191e28",
@@ -109,7 +109,7 @@
     "link3": "#cc2c24",
     "link4": "#cc2c24"
   },
-  "shoko": {
+  "Shoko": {
     "panelBackground": "#7A99AC",
     "primaryText": "#DDE5ED",
     "background": "#DDE5ED",
@@ -119,7 +119,7 @@
     "link3": "#99D6EA",
     "link4": "#99D6EA"
   },
-  "tuzi": {
+  "Tuzi": {
     "panelBackground": "#8d8bb2",
     "primaryText": "#e1dfed",
     "background": "#e1dfed",
@@ -129,7 +129,7 @@
     "link3": "#7e4f7b",
     "link4": "#7e4f7b"
   },
-  "bingsu": {
+  "Bingsu": {
     "panelBackground": "#533d44",
     "primaryText": "#e1dbd1",
     "background": "#946877",
@@ -139,7 +139,7 @@
     "link3": "#e1dbd1",
     "link4": "#e1dbd1"
   },
-  "muted_sleeves": {
+  "Muted Sleeves": {
     "panelBackground": "#B1B3B3",
     "primaryText": "#171718",
     "background": "#D9D9D6",
@@ -150,7 +150,7 @@
     "link4": "#ABCAE9",
     "logo": "#ECC3B2"
   },
-  "minimal_sleeves": {
+  "Minimal sleeves": {
     "panelBackground": "#f7f2ea",
     "primaryText": "#171718",
     "background": "#f7f2ea",
@@ -161,7 +161,7 @@
     "link4": "#ABCAE9",
     "logo": "#ECC3B2"
   },
-  "nimbus": {
+  "Nimbus": {
     "panelBackground": "#e1dbd1",
     "primaryText": "#393b3b",
     "background": "#ACDCF1",
@@ -172,7 +172,7 @@
     "link4": "#393b3b",
     "logo": "#393b3b"
   },
-  "yuru": {
+  "Yuru": {
     "panelBackground": "#712F3E",
     "primaryText": "#E1DBD1",
     "background": "#E1DBD1",
@@ -183,7 +183,7 @@
     "link4": "#88D4CC",
     "logo": "#88D4CC"
   },
-  "cafe": {
+  "Cafe": {
     "panelBackground": "#3d3635",
     "primaryText": "#d8d2c3",
     "background": "#d8d2c3",
@@ -194,7 +194,7 @@
     "link4": "#d0b084",
     "logo": "#d0b084"
   },
-  "metaverse": {
+  "Metaverse": {
     "panelBackground": "#171718",
     "primaryText": "#f7f2ea",
     "background": "#f7f2ea",
@@ -205,7 +205,7 @@
     "link4": "#dd1126",
     "logo": "#dd1126"
   },
-  "november_fog": {
+  "November Fog": {
     "panelBackground": "#94A59E",
     "primaryText": "#58534B",
     "background": "#D9E1E2",
