@@ -7,7 +7,7 @@ export type ThemeSettings = {
   [themeOption: string]: string
 }
 
-const colorThemes: Themes = {
+const colourThemes: Themes = {
   'Light': {
     'panelBackground': '#F3F4F6',
     'primaryText': '#374151',
@@ -227,4 +227,4 @@ const colorThemes: Themes = {
   }
 }
 
-export default colorThemes;
+export default colourThemes;

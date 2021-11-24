@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { ReaderSettings, ReaderMode, KeyBindings, ImageSizing, Chapter, Page } from 'types/reader.types';
-import useDarkMode from 'hooks/useDarkMode'
+import useTheme from 'hooks/useTheme'
 import colourThemes from 'types/theme.types'
 import 'components/MangaControl.css';
 import {
@@ -45,7 +45,7 @@ type Props = {
 const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
   const { readerSettings, updateReaderSettings, keyBindings, setKeyBindings, chapter, chapters, updateChapter, page, pages, updatePage } = props;
 
-  const [colourMode, setColourMode] = useDarkMode();
+  const [colourMode, setColourMode] = useTheme();
   const colourThemeValues = Object.keys(colourThemes)
   const toggleMenuState = () => {
     updateReaderSettings({ menuOpen: !readerSettings.menuOpen, });
