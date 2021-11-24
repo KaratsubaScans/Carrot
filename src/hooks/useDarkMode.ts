@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { StorageKey } from 'types/reader.types'
-import colourThemes from 'assets/themes.json'
+import colourThemes from 'types/theme.types'
 export default function useDarkMode(): [string, (theme: string) => void] {
   const [theme, setTheme] = useState(localStorage.getItem(StorageKey.carrotTheme) || 'Light');
   const themeSet = (theme: string) => {
@@ -10,8 +10,7 @@ export default function useDarkMode(): [string, (theme: string) => void] {
   useEffect(() => {
     const applyTheme = localStorage.getItem(StorageKey.carrotTheme) || 'Light'
     setTheme(applyTheme)
-    const colourThemesJSON: any = colourThemes;
-    const colours = colourThemesJSON[applyTheme] || colourThemesJSON['Light']
+    const colours = colourThemes[applyTheme] || colourThemes['Light']
 
     document.documentElement.style.setProperty(`--primaryColour`, colours.primaryText)
     document.documentElement.style.setProperty(`--secondaryColour`, colours.secondaryText)

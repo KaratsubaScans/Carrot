@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { ReaderSettings, ReaderMode, KeyBindings, ImageSizing, Chapter, Page } from 'types/reader.types';
 import useDarkMode from 'hooks/useDarkMode'
-import colourThemes from 'assets/themes.json'
+import colourThemes from 'types/theme.types'
 import 'components/MangaControl.css';
 import {
   TitleIcon,
