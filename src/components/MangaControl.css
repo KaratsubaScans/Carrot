@@ -4,7 +4,7 @@
 
 .menu {
   @apply w-80;
-  @apply bg-gray-100 dark:bg-gray-800 shadow-lg;
+  @apply bg-panelBackgroundColour dark:bg-gray-800 shadow-lg;
   @apply flex flex-col p-6 gap-y-6 transition-all duration-300;
 }
 
@@ -15,7 +15,7 @@
 }
 
 .dropdown {
-  @apply p-2 bg-white border rounded-md border-black dark:bg-gray-800 dark:border-white;
+  @apply p-2 text-primaryColour bg-panelBackgroundColour border rounded-md border-primaryColour;
 }
 
 .menuWrapper {

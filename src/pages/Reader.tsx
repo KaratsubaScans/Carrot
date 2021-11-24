@@ -7,7 +7,7 @@ import Loader from 'components/Loader'
 import MangaControl from 'components/MangaControl';
 import 'pages/Reader.css';
 
-import { ReaderSettings, KeyBindings, ReaderMode, ImageSizing, ColourTheme, Page, Chapter } from 'types/reader.types';
+import { ReaderSettings, KeyBindings, ReaderMode, ImageSizing, Page, Chapter, StorageKey } from 'types/reader.types';
 
 import { fetchZip, extractZip, ZipInfo } from 'services/archive.service';
 import { getPages, getChapters, getImage } from 'utils/requests';
@@ -37,12 +37,12 @@ class Reader extends React.Component<any, State> {
     let readerSettings = {
       readerMode: ReaderMode.longStrip,
       imageSizing: ImageSizing.fitHeight,
-      colourTheme: ColourTheme.light,
+      colourTheme: 'Light',
       menuOpen: true,
       autoLoadChapter: true,
     }
 
-    const savedSettings = localStorage.getItem('carrotSettings');
+    const savedSettings = localStorage.getItem(StorageKey.carrotSettings);
     if (savedSettings) {
       try {
         const parsedSettings: Partial<ReaderSettings> = JSON.parse(savedSettings)
@@ -163,7 +163,7 @@ class Reader extends React.Component<any, State> {
         this.myRef.current?.scrollIntoView()
       }
     });
-    localStorage.setItem("carrotSettings", JSON.stringify(readerSettings))
+    localStorage.setItem(StorageKey.carrotSettings, JSON.stringify(readerSettings))
   }
 
   updateChapter = async (newChapter: number, previousPage = false) => {

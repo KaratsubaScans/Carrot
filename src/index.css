@@ -1,14 +1,20 @@
 @tailwind base;
 @tailwind components;
 
+:root {
+  --primaryColour: #374151;
+  --secondaryColour: #000;
+  --backgroundColour: #fff;
+  --panelBackgroundColour: #F3F4F6;
+}
+
 body {
   margin: 0;
   font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  @apply text-gray-700;
-  @apply dark:text-gray-100;
-  @apply dark:bg-gray-900 h-screen;
+  @apply text-primaryColour bg-backgroundColour;
+  @apply h-screen;
 }
 
 code {

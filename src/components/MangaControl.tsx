@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 
-import { ReaderSettings, ReaderMode, KeyBindings, ImageSizing, ColourTheme, Chapter, Page } from 'types/reader.types';
+import { ReaderSettings, ReaderMode, KeyBindings, ImageSizing, Chapter, Page } from 'types/reader.types';
+import useDarkMode from 'hooks/useDarkMode'
+import colourThemes from 'assets/themes.json'
 import 'components/MangaControl.css';
 import {
   TitleIcon,
@@ -42,6 +44,9 @@ type Props = {
 
 const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
   const { readerSettings, updateReaderSettings, keyBindings, setKeyBindings, chapter, chapters, updateChapter, page, pages, updatePage } = props;
+
+  const [colourMode, setColourMode] = useDarkMode();
+  const colourThemeValues = Object.keys(colourThemes)
   const toggleMenuState = () => {
     updateReaderSettings({ menuOpen: !readerSettings.menuOpen, });
   };
@@ -52,14 +57,14 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
     updateReaderSettings({ imageSizing: event.currentTarget.value as ImageSizing });
   };
   const changeColourTheme = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    updateReaderSettings({ colourTheme: event.currentTarget.value as ColourTheme });
+    setColourMode(event.currentTarget.value)
+    updateReaderSettings({ colourTheme: event.currentTarget.value });
   };
   const toggleAutoLoadChapter = () => {
     updateReaderSettings({ autoLoadChapter: !readerSettings.autoLoadChapter })
   }
 
   const changeChapter = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(event.currentTarget.value);
     updateChapter(+event.currentTarget.value);
   };
   const changePage = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -74,7 +79,7 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
     <div className="menuWrapper no-scrollbar pr-12">
       <div className={readerSettings.menuOpen ? "menu" : "menu menu-closed"}>
         <div className="absolute inset-y-0 right-0 flex justify-center items-center mr-2">
-          <button onClick={() => { toggleMenuState() }} className="bg-gray-100 dark:bg-gray-700 p-2 shadow-lg rounded">
+          <button onClick={() => { toggleMenuState() }} className="bg-panelBackgroundColour dark:bg-gray-700 p-2 shadow-lg rounded">
             {readerSettings.menuOpen ? <LeftArrowIcon /> : <RightArrowIcon />}
           </button>
         </div>
@@ -155,20 +160,16 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
             <div className="title">Colour Theme</div>
           </div>
           <div className="control-title">
-            <input type="color" defaultValue="#ff0000" />
-            {/*
             <select className="subtitle dropdown w-full" onChange={changeColourTheme} value={readerSettings.colourTheme}>
-              {Object.values(ColourTheme).map((item: string) =>
+              {Object.values(colourThemeValues).map((item: string) =>
                 (<option className="subtitle" value={item} key={item}>{item}</option>)
               )}
             </select>
-            */
-            }
           </div>
 
         </div>
         <div>
-          <button onClick={() => setIsOpenHotKeys(true)} className="bg-gray-700 text-white rounded py-2 px-4 hover:bg-gray-800">
+          <button onClick={() => setIsOpenHotKeys(true)} className="bg-backgroundColour text-secondaryColour rounded py-2 px-4 hover:bg-primaryColour hover:text-panelBackgroundColour">
             HotKeys
           </button>
           <Modal title={'HotKeys'} isOpen={isOpenHotKeys} setIsOpen={setIsOpenHotKeys} buttonMsg="Close">

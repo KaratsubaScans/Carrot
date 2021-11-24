@@ -2,7 +2,7 @@
 export interface ReaderSettings {
   readerMode: ReaderMode,
   imageSizing: ImageSizing,
-  colourTheme: ColourTheme,
+  colourTheme: string,
   menuOpen: boolean,
   autoLoadChapter: boolean,
 }
@@ -18,11 +18,6 @@ export enum ImageSizing {
   fitHeight = "Fit Height"
 }
 
-export enum ColourTheme {
-  light = "light",
-  dark = "dark"
-}
-
 export type Page = {
   name: string
 };
@@ -35,4 +30,9 @@ export interface KeyBindings {
   nextPage: string,
   previousChapter: string,
   nextChapter: string
+}
+
+export enum StorageKey {
+  carrotSettings = "carrotSettings",
+  carrotTheme = "carrotTheme"
 }
