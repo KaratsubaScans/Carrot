@@ -7,7 +7,7 @@ import Loader from 'components/Loader'
 import MangaControl from 'components/MangaControl';
 import 'pages/Reader.css';
 
-import { ReaderSettings, KeyBindings, ReaderMode, ImageSizing, ColourTheme, Page, Chapter } from 'types/reader.types';
+import { ReaderSettings, KeyBindings, ReaderMode, ImageSizing, Page, Chapter } from 'types/reader.types';
 
 import { fetchZip, extractZip, ZipInfo } from 'services/archive.service';
 import { getPages, getChapters, getImage } from 'utils/requests';
@@ -37,7 +37,7 @@ class Reader extends React.Component<any, State> {
     let readerSettings = {
       readerMode: ReaderMode.longStrip,
       imageSizing: ImageSizing.fitHeight,
-      colourTheme: ColourTheme.light,
+      colourTheme: "light",
       menuOpen: true,
       autoLoadChapter: true,
     }

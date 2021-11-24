@@ -8,7 +8,7 @@ module.exports = {
   purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   darkMode: 'class', // or 'media' or 'class'
   theme: {
-   fontSize: {
+    fontSize: {
       'xs': '.75rem',
       'sm': '.875rem',
       'tiny': '.875rem',
@@ -25,6 +25,10 @@ module.exports = {
     extend: {
       colors: {
         gray: colors.blueGray,
+        "primaryColour": "var(--primaryColour)",
+        "secondaryColour": "var(--secondaryColour)",
+        "backgroundColour": "var(--backgroundColour)",
+        "panelBackgroundColour": "var(--panelBackgroundColour)",
       },
     },
   },

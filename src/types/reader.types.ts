@@ -2,7 +2,7 @@
 export interface ReaderSettings {
   readerMode: ReaderMode,
   imageSizing: ImageSizing,
-  colourTheme: ColourTheme,
+  colourTheme: string,
   menuOpen: boolean,
   autoLoadChapter: boolean,
 }
@@ -16,11 +16,6 @@ export enum ImageSizing {
   original = "Original",
   fitWidth = "Fit Width",
   fitHeight = "Fit Height"
-}
-
-export enum ColourTheme {
-  light = "light",
-  dark = "dark"
 }
 
 export type Page = {
