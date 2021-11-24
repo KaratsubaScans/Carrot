@@ -3,7 +3,7 @@ import { useHistory } from 'react-router';
 
 import Logo from 'assets/logo/logo.svg'
 import './Layout.css'
-import useDarkMode from 'hooks/useDarkMode'
+import useTheme from 'hooks/useTheme'
 import { SunIcon, MoonIcon } from 'components/Icons'
 import { prependOnceListener } from 'process';
 
@@ -14,7 +14,7 @@ type layoutProps = {
 const Layout = (props: layoutProps) => {
   const history = useHistory();
 
-  const [colorTheme, setTheme] = useDarkMode()
+  const [colorTheme, setTheme] = useTheme()
 
   return (
     <div>
