@@ -38,7 +38,12 @@ export enum StorageKey {
 }
 
 export interface Metadata {
+  title: string,
+  original_title: string,
+  author: string,
+  description: string,
+  cover_image: string,
   url: string,
   type: string,
-  original: boolean
+  original: boolean,
 }
