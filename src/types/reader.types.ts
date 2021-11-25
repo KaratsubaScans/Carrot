@@ -39,5 +39,6 @@ export enum StorageKey {
 
 export interface Metadata {
   url: string,
-  type: string
+  type: string,
+  original: boolean
 }
