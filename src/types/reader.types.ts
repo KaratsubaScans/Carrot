@@ -36,3 +36,8 @@ export enum StorageKey {
   carrotSettings = "carrotSettings",
   carrotTheme = "carrotTheme"
 }
+
+export interface Metadata {
+  url: string,
+  type: string
+}

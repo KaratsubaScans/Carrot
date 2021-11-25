@@ -7,10 +7,10 @@ import Loader from 'components/Loader'
 import MangaControl from 'components/MangaControl';
 import 'pages/Reader.css';
 
-import { ReaderSettings, KeyBindings, ReaderMode, ImageSizing, Page, Chapter, StorageKey } from 'types/reader.types';
+import { ReaderSettings, KeyBindings, ReaderMode, ImageSizing, Page, Chapter, StorageKey, Metadata } from 'types/reader.types';
 
 import { fetchZip, extractZip, ZipInfo } from 'services/archive.service';
-import { getPages, getChapters, getImage } from 'utils/requests';
+import { getPages, getChapters, getImage, getMetadata } from 'utils/requests';
 import queryString from 'query-string';
 import { API_URL } from 'config';
 
@@ -24,6 +24,7 @@ interface State {
   chapters: Chapter[],
   page: number,
   pages: Page[],
+  metadata: Metadata | Record<string, never>,
   loaded: boolean,
   readerSettings: ReaderSettings,
   keyBindings: KeyBindings,
@@ -79,6 +80,7 @@ class Reader extends React.Component<any, State> {
       chapters: [],
       page: this.props.match.params.page - 1,
       pages: [],
+      metadata: {},
       loaded: false,
       readerSettings,
       keyBindings,
@@ -92,19 +94,15 @@ class Reader extends React.Component<any, State> {
       .split('_')
       .map((word) => word[0].toLocaleUpperCase() + word.substring(1))
       .join(' ');
-
   }
 
   loadImage = async (src: string) => {
     const img = new Image();
     img.src = src;
     return img;
-
   }
 
-
   queryManga = async () => {
-
     let chapters: Chapter[] = [];
     try {
       chapters = await getChapters(this.state.mangafile);
@@ -113,9 +111,11 @@ class Reader extends React.Component<any, State> {
       return;
     }
     const pages = await getPages(this.state.mangafile, chapters[this.state.chapter].name);
+    const metadata = await getMetadata(this.state.mangafile);
     this.setState({
       chapters,
-      pages
+      pages,
+      metadata,
     });
   }
 
@@ -149,8 +149,15 @@ class Reader extends React.Component<any, State> {
         this.myRef?.current?.scrollIntoView()
         promises.map(task => task())
       });
-
     }
+  }
+
+  scrollDown = () => {
+    window.scrollBy({top: window.innerHeight, left: 0, behavior: 'smooth'}) 
+  }
+
+  scrollUp = () => {
+    window.scrollBy({top: window.innerHeight * -1, left: 0, behavior: 'smooth'}) 
   }
 
   updateReaderSettings = (newReaderSettings: Partial<ReaderSettings>) => {
@@ -174,7 +181,6 @@ class Reader extends React.Component<any, State> {
     }
     this.props.history.push(`/read/${this.state.mangafile}/${newChapter + 1}/${newPage}`);
     this.props.history.go(0);
-
   }
 
   updatePage = (newPage: number, scroll = false) => {
@@ -182,8 +188,11 @@ class Reader extends React.Component<any, State> {
     this.setState(curState => ({
       ...curState,
       page: newPage,
-    }), () => (!scroll && this.state.loaded) && this.myRef?.current?.scrollIntoView())
-
+    }), () => {
+      if (!scroll && this.state.loaded) {
+          this.myRef?.current?.scrollIntoView()
+      }
+    })
   }
 
   nextChapter = () => {
@@ -191,22 +200,33 @@ class Reader extends React.Component<any, State> {
       this.updateChapter(this.state.chapter + 1)
     }
   };
+
   previousChapter = (previousPage = false) => {
     if (this.state.chapter - 1 >= 0) {
       this.updateChapter(this.state.chapter - 1, previousPage)
     }
   };
-  nextPage = () => {
+
+  nextPage = (clicked = false) => {
     if (this.state.page + 1 < this.state.pages.length) {
-      this.updatePage(this.state.page + 1)
+      if (this.state.metadata.type !== 'manga' && clicked) {
+        this.scrollDown()
+      } else {
+        this.updatePage(this.state.page + 1)
+      }
     }
     else if (this.state.readerSettings.autoLoadChapter) {
       this.nextChapter();
     }
   };
-  previousPage = () => {
+
+  previousPage = (clicked = false) => {
     if (this.state.page - 1 >= 0) {
-      this.updatePage(this.state.page - 1)
+      if (this.state.metadata.type !== 'manga' && clicked) {
+        this.scrollUp()
+      } else {
+        this.updatePage(this.state.page - 1)
+      }
     }
     else if (this.state.readerSettings.autoLoadChapter) {
       this.previousChapter(true);
@@ -232,9 +252,9 @@ class Reader extends React.Component<any, State> {
 
   handleMouseEvent = (e: MouseEvent<HTMLDivElement>) => {
     if (e.pageX < window.innerWidth * 0.5) {
-      this.previousPage();
+      this.previousPage(true);
     } else {
-      this.nextPage();
+      this.nextPage(true);
     }
   }
 
@@ -261,9 +281,7 @@ class Reader extends React.Component<any, State> {
     if (key === this.state.keyBindings.nextChapter) {
       this.nextChapter()
     }
-
   }
-
 
   async componentDidMount() {
     await this.queryManga();
@@ -311,7 +329,7 @@ class Reader extends React.Component<any, State> {
                 <InView
                   as="div"
                   key={ind}
-                  threshold={0.3}
+                  threshold={0.1}
                   onChange={(inView, entry) => this.checkVisible(inView, ind)}
                   className={this.toClasses([this.state.readerSettings.imageSizing, this.state.readerSettings.readerMode], ind)}
                 >

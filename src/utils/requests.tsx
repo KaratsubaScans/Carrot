@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Chapter, Page } from 'types/reader.types';
+import { Chapter, Page, Metadata } from 'types/reader.types';
 import { API_URL } from 'config'
 
 export const getPages = async (mangafile: string, chapter: string): Promise<Page[]> => {
@@ -42,7 +42,10 @@ export const getImage = async (url: string): Promise<string> => {
 
 };
 
-export const getMetaData = (mangafile: string): string => {
-  return 'hello'
+export const getMetadata = async (mangafile: string): Promise<Metadata> => {
+  const url = `${API_URL}/${mangafile}/.metadata`
+  const { data: metadata } = await axios.get(url)
+
+  return metadata;
 
 }
