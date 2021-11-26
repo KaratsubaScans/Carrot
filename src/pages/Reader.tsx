@@ -103,6 +103,15 @@ class Reader extends React.Component<any, State> {
   }
 
   queryManga = async () => {
+    let metadata: Metadata | Record<string, never>= {};
+    try {
+      metadata = await getMetadata(this.state.mangafile);
+      if (metadata.type !== "manga") {
+        // this.updateReaderSettings({ })
+      }
+    } catch (err) {
+      this.props.history.push('/404');
+    }
     let chapters: Chapter[] = [];
     try {
       chapters = await getChapters(this.state.mangafile);
@@ -111,7 +120,6 @@ class Reader extends React.Component<any, State> {
       return;
     }
     const pages = await getPages(this.state.mangafile, chapters[this.state.chapter].name);
-    const metadata = await getMetadata(this.state.mangafile);
     this.setState({
       chapters,
       pages,
@@ -160,7 +168,7 @@ class Reader extends React.Component<any, State> {
     window.scrollBy({top: window.innerHeight * -1, left: 0, behavior: 'smooth'}) 
   }
 
-  updateReaderSettings = (newReaderSettings: Partial<ReaderSettings>) => {
+  updateReaderSettings = (newReaderSettings: Partial<ReaderSettings>, updateLocalStorage = true) => {
     const readerSettings = { ...this.state.readerSettings, ...newReaderSettings }
     this.setState(curState => ({
       ...curState,
@@ -170,7 +178,9 @@ class Reader extends React.Component<any, State> {
         this.myRef.current?.scrollIntoView()
       }
     });
-    localStorage.setItem(StorageKey.carrotSettings, JSON.stringify(readerSettings))
+    if (updateLocalStorage) {
+      localStorage.setItem(StorageKey.carrotSettings, JSON.stringify(readerSettings))
+    }
   }
 
   updateChapter = async (newChapter: number, previousPage = false) => {
@@ -302,6 +312,7 @@ class Reader extends React.Component<any, State> {
         <MangaControl
           mangaName={this.mangaName()}
           readerSettings={this.state.readerSettings}
+          mangaType={this.state.metadata.type}
           updateReaderSettings={this.updateReaderSettings}
           keyBindings={this.state.keyBindings}
           setKeyBindings={this.setKeyBindings}

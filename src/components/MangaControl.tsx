@@ -26,6 +26,7 @@ import Share from './Share';
 
 type Props = {
   mangaName: string,
+  mangaType: string,
   readerSettings: ReaderSettings,
   updateReaderSettings: (newReaderSettings: Partial<ReaderSettings>) => void,
   keyBindings: KeyBindings,
@@ -43,7 +44,7 @@ type Props = {
 }
 
 const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
-  const { readerSettings, updateReaderSettings, keyBindings, setKeyBindings, chapter, chapters, updateChapter, page, pages, updatePage } = props;
+  const { readerSettings, updateReaderSettings, keyBindings, setKeyBindings, chapter, chapters, updateChapter, page, pages, updatePage, mangaType } = props;
 
   const [colourMode, setColourMode] = useTheme();
   const colourThemeValues = Object.keys(colourThemes)
@@ -136,8 +137,13 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
             <div className="title">Reading Mode</div>
           </div>
           <select className="subtitle dropdown" onChange={changeReaderMode} value={readerSettings.readerMode}>
-            {Object.values(ReaderMode).map((readerMode: string) =>
-              (<option className="subtitle" value={readerMode} key={readerMode}>{readerMode}</option>)
+            {Object.values(ReaderMode).map((readerMode: string) => {
+              if (mangaType === 'manga') {
+                return (<option className="subtitle" value={readerMode} key={readerMode}>{readerMode}</option>)
+              } else if (readerMode === 'Long Strip') {
+                return (<option className="subtitle" value={readerMode} key={readerMode}>{readerMode}</option>)
+              }
+            }
             )}
           </select>
         </div>
@@ -148,8 +154,13 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
             <div className="title">Image Size</div>
           </div>
           <select className="subtitle dropdown" onChange={changeImageSizing} value={readerSettings.imageSizing}>
-            {Object.values(ImageSizing).map((item: string) =>
-              (<option className="subtitle" value={item} key={item}>{item}</option>)
+            {Object.values(ImageSizing).map((item: string) => {
+              if (mangaType === 'manga') {
+                return (<option className="subtitle" value={item} key={item}>{item}</option>)
+              } else if (item === 'Original') {
+                return (<option className="subtitle" value={item} key={item}>{item}</option>)
+              }
+            }
             )}
           </select>
         </div>
