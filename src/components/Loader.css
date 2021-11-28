@@ -2,7 +2,7 @@
   @apply p-4 my-5 w-full h-full object-contain flex items-center justify-center;
 }
 
-.loader-container {
+.loader-read {
   @apply animate-pulse;
   width: 70vw;
   height: 70vh;

@@ -79,7 +79,7 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
   return (
     <div className="menuWrapper no-scrollbar pr-12">
       <div className={readerSettings.menuOpen ? "menu" : "menu menu-closed"}>
-        <div className="absolute inset-y-0 right-0 flex justify-center items-center mr-2">
+        <div className="absolute right-0 flex justify-center items-center vertical-center mr-2 h-20">
           <button onClick={() => { toggleMenuState() }} className="bg-panelBackgroundColour dark:bg-gray-700 p-2 shadow-lg rounded">
             {readerSettings.menuOpen ? <LeftArrowIcon /> : <RightArrowIcon />}
           </button>

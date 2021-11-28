@@ -246,12 +246,22 @@ class Reader extends React.Component<any, State> {
     }
   }
 
-  toClasses = (options: string[], index: number) => {
+  toClasses = (index: number) => {
     let classes = '';
+    const options = [];
+    if (this.state.metadata.type !== 'manga') {
+      console.log('gkasfdjlfdjk')
+      options.push('Long Strip')
+      options.push('Original')
+    } else {
+      options.push(this.state.readerSettings.readerMode)
+      options.push(this.state.readerSettings.imageSizing)
+    }
+
     for (let i = 0; i < options.length; i += 1) {
       classes += options[i].split(' ').join('') + ' ';
     }
-    if (this.state.readerSettings.readerMode === ReaderMode.singlePage && index !== this.state.page) {
+    if (this.state.readerSettings.readerMode === ReaderMode.singlePage && index !== this.state.page && this.state.metadata.type === 'manga') {
       classes += 'hidden'
     }
     return classes;
@@ -339,13 +349,13 @@ class Reader extends React.Component<any, State> {
                   key={ind}
                   threshold={0.1}
                   onChange={(inView, entry) => this.checkVisible(inView, ind)}
-                  className={this.toClasses([this.state.readerSettings.imageSizing, this.state.readerSettings.readerMode], ind)}
+                  className={this.toClasses(ind)}
                 >
                   {
                     (this.state.imageFiles[ind] !== "") ?
                       <img src={this.state.imageFiles[ind]} ref={ref} className="w-full h-full object-contain" />
                       :
-                      <Loader refImg={ref} />
+                      <Loader refImg={ref} classProps="loader-read" />
                   }
 
                 </InView>
