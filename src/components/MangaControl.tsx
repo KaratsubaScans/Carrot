@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom'
 
 import { ReaderSettings, ReaderMode, KeyBindings, ImageSizing, Chapter, Page } from 'types/reader.types';
 import useTheme from 'hooks/useTheme'
@@ -26,6 +27,7 @@ import Share from './Share';
 
 type Props = {
   mangaName: string,
+  mangafile: string,
   mangaType: string,
   readerSettings: ReaderSettings,
   updateReaderSettings: (newReaderSettings: Partial<ReaderSettings>) => void,
@@ -44,6 +46,7 @@ type Props = {
 }
 
 const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
+  const history = useHistory();
   const { readerSettings, updateReaderSettings, keyBindings, setKeyBindings, chapter, chapters, updateChapter, page, pages, updatePage, mangaType } = props;
 
   const [colourMode, setColourMode] = useTheme();
@@ -79,7 +82,7 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
   return (
     <div className="menuWrapper no-scrollbar pr-12">
       <div className={readerSettings.menuOpen ? "menu" : "menu menu-closed"}>
-        <div className="absolute inset-y-0 right-0 flex justify-center items-center mr-2">
+        <div className="absolute right-0 flex justify-center items-center vertical-center mr-2 h-20">
           <button onClick={() => { toggleMenuState() }} className="bg-panelBackgroundColour dark:bg-gray-700 p-2 shadow-lg rounded">
             {readerSettings.menuOpen ? <LeftArrowIcon /> : <RightArrowIcon />}
           </button>
@@ -87,7 +90,9 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
         <div>
           <TitleIcon className="float-left mr-2" />
           <div className="heading">
-            {props.mangaName}
+            <Link to={`/manga/${props.mangafile}`}>
+              {props.mangaName}
+            </Link>
             <CheckMarkIcon className="inline-block" />
           </div>
         </div>

@@ -6,12 +6,17 @@
   @apply w-80;
   @apply bg-panelBackgroundColour dark:bg-gray-800 shadow-lg;
   @apply flex flex-col p-6 gap-y-6 transition-all duration-300;
+  @apply min-h-full;
 }
 
 .menu-closed {
   @apply -ml-80;
   @apply overflow-y-hidden;
-  @apply h-full;
+}
+
+.vertical-center {
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .dropdown {

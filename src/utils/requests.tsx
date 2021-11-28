@@ -44,8 +44,21 @@ export const getImage = async (url: string): Promise<string> => {
 
 export const getMetadata = async (mangafile: string): Promise<Metadata> => {
   const url = `${API_URL}/${mangafile}/.metadata`
-  const { data: metadata } = await axios.get(url)
+  const response = await axios.get(url)
 
-  return metadata;
+  return response.data;
+}
 
+export const getTitleNames = async (): Promise<string[]> => {
+  const url = API_URL;
+  let { data: titles } = await axios.get(url);
+  // filter out useless stuff
+  titles = titles.reduce((result: string[], title: Record<string, string>) => {
+    const type = title.type;
+    if (type === 'directory') {
+      result.push(title.name)
+    }
+    return result;
+  }, []);
+  return titles;
 }
