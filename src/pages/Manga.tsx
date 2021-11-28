@@ -60,13 +60,13 @@ class Manga extends React.Component<any, State> {
           <h1 className="heading">{this.state.metadata.title || 'Manga'}</h1> :
           <div className="w-72 h-20"><Loader/></div>
         }
-        <div className="flex flex-row space-x-4">
+        <div className="flex flex-wrap bg-panelBackgroundColour rounded-md">
         {
           this.state.metadata.title ? 
           (
             <Fragment>
-              <img src={this.state.metadata.cover_image} alt="Cover Image" />
-              <p className="regular w-72">{this.state.metadata.description || 'No description'}</p>
+              <img src={this.state.metadata.cover_image || PLACEHOLDER_IMG} className="rounded-md w-72" alt="Cover Image" />
+              <p className="regular w-72 pt-2 px-2">{this.state.metadata.description || 'No description'}</p>
             </Fragment>
           ):
           (
@@ -77,11 +77,11 @@ class Manga extends React.Component<any, State> {
           )
         }
        </div>
-       <div className="flex flex-col space-y-2">
+       <div className="flex flex-wrap pt-5 w-1/2">
          {
            this.state.chapters.map((chapter, index) => {
              return (
-               <Link key={index} to={`/read/${this.state.mangafile}/${index+1}/1`}>Chapter {index+1}</Link>
+               <Link key={index} className="bg-panelBackgroundColour rounded-lg mr-2 mt-2 p-2" to={`/read/${this.state.mangafile}/${index+1}/1`}>Chapter {index+1}</Link>
              )
            })
          }

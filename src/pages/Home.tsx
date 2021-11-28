@@ -62,12 +62,12 @@ class Home extends React.Component<any, State> {
               return (
                 <div key={index}>
                   <h2 className="title">{key}</h2>
-                  <div className="flex space-x-4 pb-4 pt-2">
+                  <div className="flex flex-wrap pb-4 pt-2">
                     {
                       this.state.titles[key].map((item, index) => {
                         return (
                           <Link key={index} to={`/manga/${item.mangafile}`}>
-                            <div className="w-52 h-64 bg-panelBackgroundColour rounded-md">
+                            <div className="w-52 h-64 m-2 bg-panelBackgroundColour rounded-md">
                               <img src={item.image} className="w-full h-52 object-cover rounded-md"/>
                               <div className="regular font-bold pt-2 px-2 truncate">
                                 {item.title}
@@ -83,7 +83,7 @@ class Home extends React.Component<any, State> {
             })
           }
         </div>
-        <div className="flex flex-row">
+        <div className="flex flex-wrap">
           <Link className="header" to="/read/girls_last_tour/1/1">Girl&#39;s Last Tour</Link>
           <Link className="header" to="/read/mob_psycho/1/1">Mob Psycho</Link>
           <Link className="header" to="/read/solo%20leveling/1/1">Solo Leveling</Link>

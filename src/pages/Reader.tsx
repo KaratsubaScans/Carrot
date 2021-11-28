@@ -250,7 +250,6 @@ class Reader extends React.Component<any, State> {
     let classes = '';
     const options = [];
     if (this.state.metadata.type !== 'manga') {
-      console.log('gkasfdjlfdjk')
       options.push('Long Strip')
       options.push('Original')
     } else {
