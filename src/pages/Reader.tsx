@@ -243,8 +243,8 @@ class Reader extends React.Component<any, State> {
     let classes = '';
     const options = [];
     if (this.state.metadata.type !== 'manga') {
-      options.push('Long Strip')
-      options.push('Original')
+      options.push(ReaderMode.longStrip)
+      options.push(ImageSizing.original)
     } else {
       options.push(this.state.readerSettings.readerMode)
       options.push(this.state.readerSettings.imageSizing)
