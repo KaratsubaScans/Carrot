@@ -138,9 +138,7 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
           </div>
           <select className="subtitle dropdown" onChange={changeReaderMode} value={readerSettings.readerMode}>
             {Object.values(ReaderMode).map((readerMode: string) => {
-              if (mangaType === 'manga') {
-                return (<option className="subtitle" value={readerMode} key={readerMode}>{readerMode}</option>)
-              } else if (readerMode === 'Long Strip') {
+              if (mangaType === 'manga' || readerMode === 'Long Strip') {
                 return (<option className="subtitle" value={readerMode} key={readerMode}>{readerMode}</option>)
               }
             }
@@ -155,9 +153,7 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
           </div>
           <select className="subtitle dropdown" onChange={changeImageSizing} value={readerSettings.imageSizing}>
             {Object.values(ImageSizing).map((item: string) => {
-              if (mangaType === 'manga') {
-                return (<option className="subtitle" value={item} key={item}>{item}</option>)
-              } else if (item === 'Original') {
+              if (mangaType === 'manga' || item === 'Original') {
                 return (<option className="subtitle" value={item} key={item}>{item}</option>)
               }
             }

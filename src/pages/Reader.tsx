@@ -106,9 +106,6 @@ class Reader extends React.Component<any, State> {
     let metadata: Metadata | Record<string, never>= {};
     try {
       metadata = await getMetadata(this.state.mangafile);
-      if (metadata.type !== "manga") {
-        // this.updateReaderSettings({ })
-      }
     } catch (err) {
       this.props.history.push('/404');
     }
