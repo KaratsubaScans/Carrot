@@ -89,13 +89,6 @@ class Reader extends React.Component<any, State> {
     this.myRef = React.createRef();
   }
 
-  mangaName = (): string => {
-    return this.state.mangafile
-      .split('_')
-      .map((word) => word[0].toLocaleUpperCase() + word.substring(1))
-      .join(' ');
-  }
-
   loadImage = async (src: string) => {
     const img = new Image();
     img.src = src;
@@ -313,10 +306,11 @@ class Reader extends React.Component<any, State> {
     return (
       <div>
         <Helmet>
-          <title>{this.mangaName()} | Carrot Reader</title>
+          <title>{this.state.metadata.title || 'Manga'} | Carrot Reader</title>
         </Helmet>
         <MangaControl
-          mangaName={this.mangaName()}
+          mangaName={this.state.metadata.title || 'Manga'}
+          mangafile={this.state.mangafile}
           readerSettings={this.state.readerSettings}
           mangaType={this.state.metadata.type}
           updateReaderSettings={this.updateReaderSettings}

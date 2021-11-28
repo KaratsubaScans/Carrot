@@ -49,7 +49,7 @@ const Modal: React.FunctionComponent<Props> = (props: Props) => {
               <div className="mt-4">
                 <button
                   type="button"
-                  className="inline-flex justify-center px-4 py-2 text-sm font-medium text-secondaryColour bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                  className="inline-flex justify-center px-4 py-2 text-sm font-medium text-secondaryColour bg-blue-500 border border-transparent rounded-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                   onClick={() => setIsOpen(false)}
                 >
                   {buttonMsg}

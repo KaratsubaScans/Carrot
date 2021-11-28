@@ -83,12 +83,7 @@ class Home extends React.Component<any, State> {
             })
           }
         </div>
-        <div className="flex flex-wrap">
-          <Link className="header" to="/read/girls_last_tour/1/1">Girl&#39;s Last Tour</Link>
-          <Link className="header" to="/read/mob_psycho/1/1">Mob Psycho</Link>
-          <Link className="header" to="/read/solo%20leveling/1/1">Solo Leveling</Link>
-        </div>
-      </div>
+     </div>
     )
   }
 }
