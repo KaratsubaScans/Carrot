@@ -5,7 +5,7 @@ import Logo from 'assets/logo/logo.svg'
 import './Layout.css'
 import useTheme from 'hooks/useTheme'
 import { SunIcon, MoonIcon } from 'components/Icons'
-import { prependOnceListener } from 'process';
+import { Link } from 'react-router-dom'
 
 type layoutProps = {
   children: JSX.Element
@@ -19,10 +19,12 @@ const Layout = (props: layoutProps) => {
   return (
     <div>
       <div className="nav">
-        <button onClick={() => history.push('/')}>
-          <img src={Logo} alt="Logo" />
-        </button>
-        <h1 className="heading pl-4">Karatsuba Scan&apos;s Carrot Reader</h1>
+        <Link to="/">
+          <button>
+            <img src={Logo} alt="Logo" />
+          </button>
+        </Link>
+        <h1 className="title pl-4">Karatsuba Scan&apos;s Carrot Reader</h1>
         {/*
 
         <button className="absolute dark:text-white text-primaryColour p-2 m-2 right-4 inset-y-0" onClick={() => setTheme(colorTheme)}>
