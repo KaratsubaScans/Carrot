@@ -151,11 +151,11 @@ class Reader extends React.Component<any, State> {
   }
 
   scrollDown = () => {
-    window.scrollBy({top: window.innerHeight, left: 0, behavior: 'smooth'}) 
+    window.scrollBy({top: window.innerHeight*0.8, left: 0, behavior: 'smooth'}) 
   }
 
   scrollUp = () => {
-    window.scrollBy({top: window.innerHeight * -1, left: 0, behavior: 'smooth'}) 
+    window.scrollBy({top: (window.innerHeight) * -0.8, left: 0, behavior: 'smooth'}) 
   }
 
   updateReaderSettings = (newReaderSettings: Partial<ReaderSettings>, updateLocalStorage = true) => {
