@@ -7,4 +7,3 @@ services:
       dockerfile: Dockerfile.develop
     ports:
       - 3000:3000
-
