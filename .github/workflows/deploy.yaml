@@ -1,7 +1,6 @@
 name: Deploy Frontend
 on:
-  push:
-    branches: [master]
+  workflow-dispatch:
 jobs:
   deploy-frontend-job:
     runs-on: ubuntu-latest
@@ -18,6 +17,7 @@ jobs:
           KEY: ${{ secrets.SSHKEY }}
           script: |
             cd /var/www/Carrot
+            git reset --hard
             git pull
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh

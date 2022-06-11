@@ -4,6 +4,12 @@ React webapp that can read zipped manga files from url. Built for KaratsubaScans
 
 ## Running for development
 
+Docker:
+
+```
+docker-compose up
+```
+
 Switch to node version 14.17.6 LTS using nvm:
 ```
 $ nvm install 14.17.6
