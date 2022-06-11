@@ -2,6 +2,7 @@ version: "3.8"
 services:
   app:
     container_name: carrot
+    restart: always
     build:
       context: .
       dockerfile: Dockerfile.prod
