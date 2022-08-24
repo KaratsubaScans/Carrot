@@ -1,4 +1,5 @@
 name: Deploy Frontend
+# pm2 serve --name carrot-frontend build 9001
 on:
   workflow_dispatch:
 jobs:
@@ -25,4 +26,3 @@ jobs:
             npm install
             npm run build
             pm2 reload carrot-frontend
-            # pm2 serve --name carrot-frontend build 9001
