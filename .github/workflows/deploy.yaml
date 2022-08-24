@@ -17,7 +17,7 @@ jobs:
           KEY: ${{ secrets.SSHKEY }}
           script: |
             cd /var/www/Carrot
-            git reset --hard
+            git restore package-lock.json
             git pull
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
@@ -25,3 +25,4 @@ jobs:
             npm install
             npm run build
             pm2 reload carrot-frontend
+            # pm2 serve --name carrot-frontend build 9001
