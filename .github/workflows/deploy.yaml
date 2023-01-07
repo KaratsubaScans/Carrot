@@ -1,5 +1,5 @@
 name: Deploy Frontend
-# pm2 serve --name carrot-frontend build 9001
+# pm2 serve --name carrot-frontend build 9001 --spa
 on:
   workflow_dispatch:
 jobs:
