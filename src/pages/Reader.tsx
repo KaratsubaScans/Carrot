@@ -278,10 +278,10 @@ class Reader extends React.Component<any, State> {
 
   handleHotKeys = (event: KeyboardEvent) => {
     const key = event.key;
-    if (key === this.state.keyBindings.previousPage) {
+    if (key === this.state.keyBindings.previousPage || key === "ArrowLeft") {
       this.previousPage()
     }
-    if (key === this.state.keyBindings.nextPage) {
+    if (key === this.state.keyBindings.nextPage || key === "ArrowRight") {
       this.nextPage()
     }
     if (key === this.state.keyBindings.previousChapter) {
@@ -328,7 +328,6 @@ class Reader extends React.Component<any, State> {
           updatePage={this.updatePage}
         ></MangaControl>
 
-        <div className="p-4">Manga Reader Page</div>
         <div onMouseDown={this.handleMouseEvent} className="mangaimage-container">
           {
             this.state.pages.map((page, ind) => {

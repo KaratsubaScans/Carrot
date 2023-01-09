@@ -20,6 +20,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from 'components/Icons'
+import Logo from 'assets/logo/logo.svg'
 
 import Modal from './Modal';
 import HotKeys from './HotKeys';
@@ -87,6 +88,7 @@ const MangaControl: React.FunctionComponent<Props> = (props: Props) => {
             {readerSettings.menuOpen ? <LeftArrowIcon /> : <RightArrowIcon />}
           </button>
         </div>
+
         <div>
           <TitleIcon className="float-left mr-2" />
           <div className="heading">
